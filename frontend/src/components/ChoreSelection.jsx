@@ -1,57 +1,40 @@
-import { Button, Group, MultiSelect } from "@mantine/core";
-import { useNotifications } from "@mantine/notifications";
-import React, { useState } from "react";
+import { Divider } from "@mantine/core";
+import { useEffect, useState } from "react";
+import { fetchChoreList } from "../helpers/helpers";
+import ChoreItem from "./ChoreItem";
 
-const ChoreSelection = ({ chores, accessTkn }) => {
-  const notifications = useNotifications();
-  const [selectedChores, setSelectedChores] = useState([]);
+const ChoreSelection = ({ accessTkn }) => {
+  const [choreList, setChoreList] = useState();
 
-  const handleSubmit = () => {
-    if (selectedChores.length > 0) {
-      selectedChores.forEach(async (choreId) => {
-        const res = await fetch("http://localhost:8000/api/v1/history/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + accessTkn,
-          },
-          body: JSON.stringify({ name: choreId }),
-        });
-        const data = await res.json();
-        console.log(data);
-      });
-
-      notifications.showNotification({
-        title: "Success",
-        message: "Your chores have been updated!🎉",
-        color: "green",
-        autoClose: 2000,
-      });
-      return;
+  useEffect(async () => {
+    if (accessTkn && !choreList) {
+      const chores = await fetchChoreList(accessTkn);
+      if (typeof chores === "object") {
+        setChoreList(chores);
+        return;
+      }
     }
-    notifications.showNotification({
-      title: "Error",
-      message: "You can't submit no chores! 🤥",
-      color: "red",
-      autoClose: 2000,
-    });
-  };
+  }, [accessTkn]);
 
   return (
-    <>
-      <MultiSelect
-        className="m-10 border-2 rounded p-5"
-        label="Chores:"
-        placeholder="Pick a chore"
-        data={chores ? chores : []}
-        onChange={(e) => setSelectedChores(e)}
-      />
-      <Group position="center">
-        <Button variant="outline" onClick={handleSubmit}>
-          Submit Chores
-        </Button>
-      </Group>
-    </>
+    <div className="flex flex-col gap-3 p-3 fixed top-[4rem] bottom-[9.5vh] w-screen">
+      <div>
+        <h1 className="text-3xl text-center">🧹</h1>
+        <Divider my="md" label="Choose a chore" labelPosition="center" />
+      </div>
+
+      <div>
+        {choreList &&
+          choreList.map((chore) => {
+            return <ChoreItem chore={chore} key={chore.id} />;
+          })}
+      </div>
+      <div>
+        <h1 className="text-2xl text-center">✅</h1>
+        <Divider mx="md" label="Chores todo" labelPosition="center" />
+      </div>
+      {/* Todo */}
+    </div>
   );
 };
 

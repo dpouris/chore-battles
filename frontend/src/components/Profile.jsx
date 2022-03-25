@@ -12,10 +12,9 @@ const Profile = ({ username, className }) => {
           // color="#dfe"
           // bgColor="#ffe"
           // spotColor="#abc"
-          className="rounded-full shadow-gray-400 shadow-md"
+          className="rounded-full"
         />
-
-        <h2>{username}</h2>
+        <h2 className="font-light">Hello, {username}!</h2>
       </div>
     </div>
   );

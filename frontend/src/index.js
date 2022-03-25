@@ -10,10 +10,11 @@ ReactDOM.render(
   <NotificationsProvider>
     <Router>
       <Routes>
-        <Route path="login" element={<Login />} />
-        <Route path="/" element={<App index />} />
-        <Route path="add_item" element={<App addItem />} />
+        <Route path="/" element={<Login />} />
+        <Route path="home" element={<App home />} />
+        <Route path="chore" element={<App chore />} />
         <Route path="history" element={<App history />} />
+        <Route path="login" element={<Login />} />
       </Routes>
     </Router>
   </NotificationsProvider>,

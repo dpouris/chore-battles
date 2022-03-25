@@ -8,15 +8,23 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   return (
-    <nav className="fixed overflow-hidden bottom-0 w-screen h-[12vh] py-2 px-10 bg-slate-600 flex items-center justify-evenly nav-shadow">
+    <nav className="fixed overflow-hidden bottom-0 w-screen h-[9.5vh] py-2 px-10 bg-slate-600 flex items-center justify-evenly nav-shadow">
       <ul className="flex text-white">
-        <NavItem onClick={() => navigate("/")} itemName="Home" home>
+        <NavItem onClick={() => navigate("/home")} itemName="Home" path="home">
           <HomeIcon />
         </NavItem>
-        <NavItem onClick={() => navigate("/add_item")} itemName="Chores">
+        <NavItem
+          onClick={() => navigate("/chore")}
+          itemName="Chores"
+          path="chore"
+        >
           <FontAwesomeIcon icon={faBroom} size="lg" />
         </NavItem>
-        <NavItem onClick={() => navigate("/history")} itemName="History">
+        <NavItem
+          onClick={() => navigate("/history")}
+          itemName="History"
+          path="history"
+        >
           <FontAwesomeIcon icon={faClockRotateLeft} size="lg" />
         </NavItem>
         <NavItem onClick={""} itemName="Settings">

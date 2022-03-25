@@ -33,16 +33,27 @@ export const refreshToken = async (refreshTkn) => {
 
 export const blackListToken = async (refreshTkn) => {
   try {
-    const res = await fetch("http://localhost:8000/api/v1/auth/logout/", {
+    await fetch("http://localhost:8000/api/v1/auth/logout/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ refresh: refreshTkn }),
     });
-
-    const data = await res.json();
-
-    console.log(data);
   } catch (err) {
     console.log(err);
+  }
+};
+
+export const fetchChoreList = async (accessTkn) => {
+  try {
+    const res = await fetch("http://localhost:8000/api/v1/chores/", {
+      headers: {
+        Authorization: "Bearer " + accessTkn,
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    return err.message;
   }
 };

@@ -1,23 +1,33 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
-const NavItem = ({ itemName, children, home, onClick }) => {
-  const btnRef = useRef();
+const NavItem = ({ itemName, children, onClick, path }) => {
+  const navRef = useRef();
 
   const handleClick = (e) => {
-    if (onClick) onClick();
+    onClick && onClick();
 
     try {
       document.querySelector(".open").classList.remove("open");
-    } catch (e) {}
+    } catch (err) {}
     e.target.classList.add("open");
   };
 
+  useEffect(() => {
+    if (navRef) {
+      const urlPath = window.location.pathname.slice(1);
+
+      navRef.current.classList.contains(urlPath) &&
+        navRef.current.classList.add("open");
+    }
+  }, []);
+
   return (
     <li
-      ref={btnRef}
-      className={`${
-        home ? "home open" : ""
-      } group cursor-pointer flex flex-col items-center justify-center hover:bg-slate-700 rounded-lg w-20 h-20`}
+      ref={navRef}
+      className={
+        path +
+        " group cursor-pointer flex flex-col items-center justify-center hover:bg-slate-700  w-20 h-20"
+      }
       onClick={handleClick}
     >
       <div className="w-7 translate-y-3 group-hover:translate-y-0 transition-[transform] pointer-events-none text-center">
