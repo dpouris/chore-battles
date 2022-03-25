@@ -82,7 +82,6 @@ const App = ({ addItem, index, history }) => {
   return (
     <main className="relative">
       <Header>
-        {!accessToken && <Link to="/login">Login</Link>}
         {username && <Profile username={username} className="" />}
         {accessToken && <Logout clearState={clearState} />}
       </Header>
