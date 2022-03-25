@@ -4,7 +4,7 @@ import Blockies from "react-blockies";
 const Profile = ({ username, className }) => {
   return (
     <div className={className}>
-      <div className="flex items-center justify-center gap-3 ">
+      <div className="flex items-center justify-center gap-3">
         <Blockies
           seed={username}
           size={12}

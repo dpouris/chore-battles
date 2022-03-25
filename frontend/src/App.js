@@ -12,8 +12,10 @@ import { useNotifications } from "@mantine/notifications";
 import { fetchUserDetails, refreshToken } from "./helpers/helpers";
 // Utils
 import jwt_decode from "jwt-decode";
+import Navbar from "./components/Navbar";
+import History from "./components/History";
 
-const App = () => {
+const App = ({ addItem, index, history }) => {
   const [chores, setChores] = useState();
   const [accessToken, setAccessToken] = useState();
   const [username, setUsername] = useState();
@@ -58,9 +60,6 @@ const App = () => {
 
     if (!refreshTkn) {
       navigate("/login");
-    }
-
-    if (!refreshTkn) {
       return;
     }
 
@@ -81,14 +80,17 @@ const App = () => {
   }, []);
 
   return (
-    <>
+    <main className="relative">
       <Header>
         {!accessToken && <Link to="/login">Login</Link>}
         {username && <Profile username={username} className="" />}
         {accessToken && <Logout clearState={clearState} />}
       </Header>
-      <ChoreSelection chores={chores} accessTkn={accessToken} />
-    </>
+      {index && <></>}
+      {addItem && <ChoreSelection chores={chores} accessTkn={accessToken} />}
+      {history && <History />}
+      <Navbar />
+    </main>
   );
 };
 

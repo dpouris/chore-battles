@@ -51,13 +51,15 @@ const Login = () => {
         <input
           className="p-2 rounded outline-none shadow-inner shadow-gray-300"
           type="text"
-          name="username"
+          name="Username"
+          id="Username"
           placeholder="Username"
         />
         <input
           className="p-2 rounded outline-none shadow-inner shadow-gray-300"
-          type="password"
-          name="password"
+          type="Password"
+          name="Password"
+          id="Password"
           placeholder="Password"
         />
         <Button
