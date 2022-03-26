@@ -36,6 +36,6 @@ And you're done!
 
 # Screenshots
 
-![History](./frontend/src/images/1.png "History")
-![Chores](./frontend/src/images/2.png "Chores")
-![Login](./frontend/src/images/3.png "Login")
+[![History Screen](./frontend/src/images/1.png "History")]
+[![Chores Screen](./frontend/src/images/2.png "Chores")]
+[![Login Screen](./frontend/src/images/3.png "Login")]
