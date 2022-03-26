@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import ChoreSelection from "./components/ChoreSelection";
 import Header from "./components/Header";
 import Profile from "./components/Profile";
-import Logout from "./components/Logout";
 import Navbar from "./components/Navbar";
 import History from "./components/History";
 // Helpers
@@ -13,48 +12,36 @@ import { fetchUserDetails, refreshToken } from "./helpers/helpers";
 // Utils
 import jwt_decode from "jwt-decode";
 
+let refreshTkn;
+setInterval(() => {
+  refreshTkn = localStorage.getItem("refresh");
+  refreshToken(refreshTkn);
+}, 1800000);
+
 const App = ({ chore, history }) => {
-  const [accessToken, setAccessToken] = useState();
   const [username, setUsername] = useState();
   const navigate = useNavigate();
 
-  const clearState = () => {
-    setUsername(null);
-    setAccessToken(null);
-  };
-
   useEffect(async () => {
-    const refreshTkn = localStorage.getItem("refresh");
+    const refresh = localStorage.getItem("refresh");
+    const access = localStorage.getItem("access");
 
-    if (!refreshTkn) {
-      navigate("/login");
-      return;
+    !refresh && navigate("/login");
+    refreshToken(refresh);
+
+    if (!username) {
+      const user_id = jwt_decode(access).user_id;
+      const user_details = await fetchUserDetails(user_id, access);
+      setUsername(user_details.username);
     }
-
-    const accessTkn = await refreshToken(refreshTkn);
-    localStorage.setItem("access", accessTkn);
-
-    if (accessTkn) {
-      setAccessToken(accessTkn);
-      if (!username) {
-        const user_id = jwt_decode(accessTkn).user_id;
-        const user_details = await fetchUserDetails(user_id, accessTkn);
-        setUsername(user_details.username);
-      }
-      return;
-    }
-
-    setAccessToken(null);
-  }, [navigate]);
+    return;
+  }, []);
 
   return (
     <main className="relative">
-      <Header>
-        {username && <Profile username={username} />}
-        {accessToken && <Logout clearState={clearState} />}
-      </Header>
-      {chore && <ChoreSelection accessTkn={accessToken} />}
-      {history && <History accessToken={accessToken} />}
+      <Header>{username && <Profile username={username} />}</Header>
+      {chore && <ChoreSelection />}
+      {history && <History />}
       <Navbar />
     </main>
   );

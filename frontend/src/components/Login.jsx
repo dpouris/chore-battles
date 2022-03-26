@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useNotifications } from "@mantine/notifications";
 import { Button } from "@mantine/core";
 import { useEffect } from "react";
@@ -55,17 +55,12 @@ const Login = () => {
 
   return (
     <div className="bg-gradient-to-t bg-blue-500 flex flex-col gap-3 items-center justify-center h-screen">
-      <div className="flex flex-col items-center ">
-        <h1 className="text-blue-600 text-4xl font-bold bg-white p-2 w-screen flex items-center justify-center gap-3">
-          Chore Battle
-          <Logo size="md" color="blue" />
-        </h1>
-      </div>
       <form
         onSubmit={handleSubmit}
         method="POST"
         className="flex flex-col items-center justify-center gap-3 bg-white p-10 shadow-xl w-screen"
       >
+        <Logo size="md" color="blue" />
         <h1 className="text-black text-3xl">Login</h1>
         <div className="flex flex-col gap-1 ">
           <label htmlFor="Username" className="text-black pl-1">
@@ -98,6 +93,9 @@ const Login = () => {
         >
           Login
         </Button>
+        <Link className="text-blue-400 underline text-left" to="/signup">
+          Don't have an account yet? Sign up.
+        </Link>
       </form>
     </div>
   );

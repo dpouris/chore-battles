@@ -45,7 +45,7 @@ const ChoreItem = ({ chore }) => {
   return (
     <div
       onClick={handleClick}
-      className="p-5 rounded shadow-lg flex justify-between transition-all cursor-pointer group relative"
+      className="p-5 rounded-full shadow-inner shadow-slate-200 flex justify-between transition-all cursor-pointer group relative"
     >
       <h1>{chore.name}</h1>
       <p hidden ref={choreRef}>
@@ -56,7 +56,7 @@ const ChoreItem = ({ chore }) => {
         size="lg"
         className="group-hover:text-white select-none text-green-500"
       />
-      <div className="absolute -right-0 top-0 rounded bottom-0 w-1/2 z-[-1] scale-x-0 group-hover:scale-x-100 bg-green-500 origin-right transition-all"></div>
+      <div className="absolute -right-0 top-0 rounded-full bottom-0 w-1/2 z-[-1] scale-x-0 group-hover:scale-x-100 bg-green-500 origin-right transition-all"></div>
     </div>
   );
 };

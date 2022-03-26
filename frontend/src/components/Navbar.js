@@ -8,7 +8,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   return (
-    <nav className="fixed overflow-hidden bottom-0 w-screen h-[9.5vh] py-2 px-10 bg-slate-600 flex items-center justify-evenly nav-shadow">
+    <nav className="fixed overflow-hidden bottom-0 w-screen h-[9.5vh] py-2 px-10 bg-white flex items-center justify-evenly nav-shadow">
       <ul className="flex text-white">
         <NavItem onClick={() => navigate("/home")} itemName="Home" path="home">
           <HomeIcon />

@@ -1,34 +1,19 @@
 import { useEffect, useState } from "react";
 import { Table } from "@mantine/core";
-import { useNotifications } from "@mantine/notifications";
+import { newFetch } from "../helpers/helpers";
 
-const History = ({ accessToken }) => {
-  const [history, setHistory] = useState();
-  const notifications = useNotifications();
+const History = () => {
+  const [history, setHistory] = useState([]);
 
   useEffect(async () => {
-    if (accessToken && !history) {
-      try {
-        const res = await fetch("http://localhost:8000/api/v1/history/", {
-          headers: { Authorization: "Bearer " + accessToken },
-        });
-        const data = await res.json();
+    const historyData = await newFetch("history");
+    !historyData.detail && setHistory(historyData);
 
-        setHistory(data);
-        return;
-      } catch (err) {
-        notifications.showNotification({
-          title: "Error",
-          message: err.message,
-          color: "red",
-          autoClose: 2000,
-        });
-      }
-    }
-  }, [accessToken]);
+    return;
+  }, []);
 
   return (
-    <div className="fixed bottom-[9.5vh] overflow-scroll w-screen top-[4rem]">
+    <div className="fixed bottom-[9.5vh] overflow-scroll w-screen top-[9.5vh]">
       <Table striped highlightOnHover horizontalSpacing="lg">
         <thead className="sticky top-0">
           <tr className=" bg-gray-200 shadow-md">
@@ -52,8 +37,8 @@ const History = ({ accessToken }) => {
                   </td>
                   <td
                     className={`${
-                      chore.completed ? "bg-green-500" : "bg-red-500"
-                    } font-semibold text-white`}
+                      chore.completed ? "bg-green-400" : "bg-red-400"
+                    } font-semibold text-white rounded-xl truncate text-center w-1/4`}
                   >
                     {chore.completed ? "Completed" : "Not completed"}
                   </td>

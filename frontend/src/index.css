@@ -16,11 +16,22 @@ code {
     monospace;
 }
 
-.open {
-  @apply text-blue-400;
-}
-
 .nav-shadow {
   box-shadow: 0 -10px 15px -3px rgba(0, 0, 0, 0.212),
     0 -4px 6px -4px rgba(0, 0, 0, 0.219);
+}
+
+.open::after {
+  --tw-text-opacity: 1;
+  content: "";
+  top: 0;
+  width: 65%;
+  height: 0.5vh;
+  background-color: rgb(96 165 250 / var(--tw-text-opacity));
+  border-radius: 10px;
+}
+
+.open > span {
+  --tw-text-opacity: 1;
+  color: rgb(96 165 250 / var(--tw-text-opacity));
 }

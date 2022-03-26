@@ -10,50 +10,42 @@ export const fetchUserDetails = async (user_id, accessTkn) => {
     const data = await res.json();
     return { ...data };
   } catch (err) {
-    console.log(err);
-    return;
+    return err.message;
   }
 };
 
 export const refreshToken = async (refreshTkn) => {
-  try {
-    const res = await fetch("http://localhost:8000/api/v1/auth/refresh/", {
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ refresh: refreshTkn }),
-      method: "POST",
-    });
+  const res = await fetch("http://localhost:8000/api/v1/auth/refresh/", {
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ refresh: refreshTkn }),
+    method: "POST",
+  });
 
-    const data = await res.json();
-    return data.access;
-  } catch (err) {
-    console.log(err);
-    return;
-  }
+  const data = await res.json();
+
+  data.refresh && localStorage.setItem("refresh", data.refresh);
+  data.access && localStorage.setItem("access", data.access);
+  !data.access && localStorage.removeItem("refresh");
 };
 
 export const blackListToken = async (refreshTkn) => {
-  try {
-    await fetch("http://localhost:8000/api/v1/auth/logout/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ refresh: refreshTkn }),
-    });
-  } catch (err) {
-    console.log(err);
-  }
+  await fetch("http://localhost:8000/api/v1/auth/logout/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ refresh: refreshTkn }),
+  });
+  return;
 };
 
-export const fetchChoreList = async (accessTkn) => {
-  try {
-    const res = await fetch("http://localhost:8000/api/v1/chores/", {
-      headers: {
-        Authorization: "Bearer " + accessTkn,
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await res.json();
-    return data;
-  } catch (err) {
-    return err.message;
-  }
+export const newFetch = async (toFetch) => {
+  const accessTkn = localStorage.getItem("access");
+
+  const res = await fetch(`http://localhost:8000/api/v1/${toFetch}/`, {
+    headers: {
+      Authorization: "Bearer " + accessTkn,
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await res.json();
+  return data;
 };

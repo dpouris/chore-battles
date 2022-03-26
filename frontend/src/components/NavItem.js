@@ -26,14 +26,21 @@ const NavItem = ({ itemName, children, onClick, path }) => {
       ref={navRef}
       className={
         path +
-        " group cursor-pointer flex flex-col items-center justify-center hover:bg-slate-700  w-20 h-20"
+        " group cursor-pointer flex flex-col items-center justify-center hover:bg-slate-50  w-20 h-20"
       }
       onClick={handleClick}
     >
-      <div className="w-7 translate-y-3 group-hover:translate-y-0 transition-[transform] pointer-events-none text-center">
+      <div
+        className={`${
+          navRef.current &&
+          (navRef.current.classList.contains("open")
+            ? "text-blue-400"
+            : "text-black")
+        } w-7 translate-y-3 group-hover:translate-y-0 transition-[transform] pointer-events-none text-center`}
+      >
         {children}
       </div>
-      <span className="translate-y-20 group-hover:translate-y-0 transition-[transform] pointer-events-none">
+      <span className="translate-y-20 group-hover:translate-y-0 transition-[transform] pointer-events-none text-black">
         {itemName}
       </span>
     </li>
