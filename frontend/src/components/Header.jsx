@@ -1,5 +1,5 @@
 import React from "react";
-import BroomLogo from "../cross-broom.png";
+import BroomLogo from "../images/cross-broom.png";
 
 const Header = ({ children }) => {
   return (
