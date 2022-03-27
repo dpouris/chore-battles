@@ -1,13 +1,25 @@
 import { useEffect, useState } from "react";
 import { Table } from "@mantine/core";
-import { newFetch } from "../helpers/helpers";
+import { newFetch, refreshToken } from "../helpers/helpers";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCircleCheck,
+  faCircleXmark,
+} from "@fortawesome/free-solid-svg-icons";
 
 const History = () => {
   const [history, setHistory] = useState([]);
 
   useEffect(async () => {
-    const historyData = await newFetch("history");
+    let historyData = await newFetch("history");
     !historyData.detail && setHistory(historyData);
+
+    if (historyData.detail) {
+      const refresh = localStorage.getItem("refresh");
+      refreshToken(refresh);
+      historyData = await newFetch("chores");
+      !historyData.detail && setHistory(historyData);
+    }
 
     return;
   }, []);
@@ -17,7 +29,6 @@ const History = () => {
       <Table striped highlightOnHover horizontalSpacing="lg">
         <thead className="sticky top-0">
           <tr className=" bg-gray-200 shadow-md">
-            {/* <th className="hover:bg-gray-100 cursor-pointer ">ID</th> */}
             <th className="hover:bg-gray-100 cursor-pointer ">Chore</th>
             <th className="hover:bg-gray-100 cursor-pointer ">Date/Time</th>
             <th className="hover:bg-gray-100 cursor-pointer ">Completed</th>
@@ -28,19 +39,24 @@ const History = () => {
             history.map((chore) => {
               return (
                 <tr key={chore.id}>
-                  {/* <td>{chore.id}</td> */}
                   <td>{chore.log_name}</td>
                   <td className="flex gap-2">
                     <span className="text-blue-500 font-normal">
                       {new Date(chore.date_created).toLocaleString()}
                     </span>
                   </td>
-                  <td
-                    className={`${
-                      chore.completed ? "bg-green-400" : "bg-red-400"
-                    } font-semibold text-white rounded-xl truncate text-center w-1/4`}
-                  >
-                    {chore.completed ? "Completed" : "Not completed"}
+                  <td className="text-center">
+                    {chore.completed ? (
+                      <FontAwesomeIcon
+                        icon={faCircleCheck}
+                        className="text-xl text-green-400"
+                      />
+                    ) : (
+                      <FontAwesomeIcon
+                        icon={faCircleXmark}
+                        className="text-xl text-red-400"
+                      />
+                    )}
                   </td>
                 </tr>
               );

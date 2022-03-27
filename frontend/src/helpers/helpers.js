@@ -37,10 +37,12 @@ export const blackListToken = async (refreshTkn) => {
   return;
 };
 
-export const newFetch = async (toFetch) => {
+export const newFetch = async (toFetch, options) => {
   const accessTkn = localStorage.getItem("access");
+  options = options || null;
 
   const res = await fetch(`http://localhost:8000/api/v1/${toFetch}/`, {
+    ...options,
     headers: {
       Authorization: "Bearer " + accessTkn,
       "Content-Type": "application/json",

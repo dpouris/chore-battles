@@ -38,7 +38,7 @@ const App = ({ chore, history }) => {
   }, []);
 
   return (
-    <main className="relative">
+    <main className="relative select-none">
       <Header>{username && <Profile username={username} />}</Header>
       {chore && <ChoreSelection />}
       {history && <History />}

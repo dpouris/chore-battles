@@ -3,14 +3,12 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { blackListToken } from "../helpers/helpers";
 
-const Logout = ({ clearState }) => {
+const Logout = () => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     const refreshTkn = localStorage.getItem("refresh");
     blackListToken(refreshTkn);
-
-    clearState();
 
     localStorage.removeItem("refresh");
     localStorage.removeItem("access");
