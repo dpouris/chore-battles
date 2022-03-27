@@ -1,70 +1,42 @@
-# Getting Started with Create React App
+# Chore-Battle is an app that puts you against your friends and family and fight on who can do the most chores!
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is the initial build of the project and currently working on it to add more features.
 
-## Available Scripts
+To run the app do the following ->
 
-In the project directory, you can run:
+1. CD into the chore_battle directory
+   `cd chore-battle/backend/chore_battle`
 
-### `npm start`
+2. Install the requirements from requirements.txt for the backend to run properly
+   `pip install -r requirements.txt`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+3. Make db migrations and migrate to create the tables and db.sqlite3 file
+   `python manage.py makemigrations`
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+`python manage.py migrate`
 
-### `npm test`
+4. Then run the createsuperuser command and add your info to create an admin user
+   `python manage.py createsuperuser`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+5. Finally run the server. It will open on port 8000 (http://localhost:8000/api/v1/)
+   `python manage.py runserver`
 
-### `npm run build`
+# Moving on to the frontend
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. To start, CD into the frontend directory
+   `cd chore-battle/frontend`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. Then run npm i to install the package.json requirements for the frontend
+   `npm i`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. Finally run npm start to start the frontend server, it will open on port 3000 (http://localhost:3000/)
+   `npm start`
 
-### `npm run eject`
+And you're done!
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+# Screenshots
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+[![History Screen](./frontend/src/images/1.png "History")]
+[![Chores Screen](./frontend/src/images/2.png "Chores")]
+[![Chores Todo Screen](./frontend/src/images/3.png "ChoresTodo")]
+[![Login Screen](./frontend/src/images/4.png "Login")]
