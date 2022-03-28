@@ -16,8 +16,8 @@ const History = () => {
 
     if (historyData.detail) {
       const refresh = localStorage.getItem("refresh");
-      refreshToken(refresh);
-      historyData = await newFetch("chores");
+      await refreshToken(refresh);
+      historyData = await newFetch("history");
       !historyData.detail && setHistory(historyData);
     }
 

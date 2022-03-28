@@ -36,6 +36,12 @@ And you're done!
 
 # Screenshots
 
-[![History Screen](./frontend/src/images/1.png "History")]
-[![Chores Screen](./frontend/src/images/2.png "Chores")]
-[![Login Screen](./frontend/src/images/3.png "Login")]
+<!-- [![History Screen](./frontend/src/images/1.png)]
+[![Chores Screen](./frontend/src/images/2.png)]
+[![Login Screen](./frontend/src/images/3.png)]
+[![Login Screen](./frontend/src/images/4.png)] -->
+
+<img src="./frontend/src/images/1.png" alt="drawing" width="200"/>
+<img src="./frontend/src/images/2.png" alt="drawing" width="200"/>
+<img src="./frontend/src/images/3.png" alt="drawing" width="200"/>
+<img src="./frontend/src/images/4.png" alt="drawing" width="200"/>

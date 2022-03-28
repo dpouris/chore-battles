@@ -20,7 +20,7 @@ const ChoreSelection = () => {
 
     if (choreData.detail) {
       const refresh = localStorage.getItem("refresh");
-      refreshToken(refresh);
+      await refreshToken(refresh);
       choreData = await newFetch("chores");
       !choreData.detail && setChoreList(choreData);
     }
