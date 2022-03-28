@@ -77,6 +77,8 @@ const ChoreTodo = ({ updateTodo, choreSegments }) => {
         <SegmentedControl
           data={segmentOptions}
           onChange={handleSegmentChange}
+          size="md"
+          radius="0.5rem"
           className="w-full
           overflow-scroll"
         />

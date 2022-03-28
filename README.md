@@ -41,7 +41,8 @@ And you're done!
 [![Login Screen](./frontend/src/images/3.png)]
 [![Login Screen](./frontend/src/images/4.png)] -->
 
-<img src="./frontend/src/images/1.png" alt="drawing" width="200"/>
-<img src="./frontend/src/images/2.png" alt="drawing" width="200"/>
-<img src="./frontend/src/images/3.png" alt="drawing" width="200"/>
-<img src="./frontend/src/images/4.png" alt="drawing" width="200"/>
+<img src="./frontend/src/images/LoginScreen.png" alt="Login" width="350"/>
+<img src="./frontend/src/images/ChoresTodoSegmentControl.png" alt="ChoresTodoSegmentControl" width="350"/>
+<img src="./frontend/src/images/ChoresTodoSegmentControlled.png" alt="ChoresTodoSegmentControlled.png" width="350"/>
+<img src="./frontend/src/images/HistoryUnordered.png" alt="HistoryUnordered" width="350"/>
+<img src="./frontend/src/images/HistoryOrderedCompleted.png" alt="HistoryUnordered" width="350"/>
