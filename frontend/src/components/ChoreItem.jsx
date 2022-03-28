@@ -9,29 +9,20 @@ const ChoreItem = ({ chore, setUpdateTodo }) => {
   const notifications = useNotifications();
 
   const handleClick = async () => {
-    try {
-      const options = {
-        method: "POST",
-        body: JSON.stringify({ name: choreRef.current.textContent }),
-      };
-      const data = await newFetch("history", options);
+    const options = {
+      method: "POST",
+      body: JSON.stringify({ name: choreRef.current.textContent }),
+    };
+    const data = await newFetch("history", options);
 
-      setUpdateTodo((prev) => prev + 1);
+    setUpdateTodo((prev) => prev + 1);
 
-      notifications.showNotification({
-        title: "Success",
-        message: data.log_name + " has been added!🎉",
-        color: "green",
-        autoClose: 2000,
-      });
-    } catch (err) {
-      notifications.showNotification({
-        title: "Error",
-        message: err.message,
-        color: "red",
-        autoClose: 2000,
-      });
-    }
+    notifications.showNotification({
+      title: "Success",
+      message: data.log_name + " has been added!🎉",
+      color: "green",
+      autoClose: 2000,
+    });
   };
 
   return (

@@ -26,10 +26,8 @@ const App = ({ chore, history }) => {
     const refresh = localStorage.getItem("refresh");
     const access = localStorage.getItem("access");
 
-    if (!refresh) {
-      clearInterval();
-      navigate("/login");
-    }
+    !refresh && navigate("/login");
+
     refreshToken(refresh);
 
     if (!username) {

@@ -4,11 +4,7 @@ import { newFetch, refreshToken } from "../helpers/helpers";
 import ChoreItem from "./ChoreItem";
 import ChoreTodo from "./ChoreTodo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faClock,
-  faHandSparkles,
-  faListCheck,
-} from "@fortawesome/free-solid-svg-icons";
+import { faHandSparkles, faListCheck } from "@fortawesome/free-solid-svg-icons";
 
 const ChoreSelection = () => {
   const [choreList, setChoreList] = useState([]);
@@ -57,7 +53,7 @@ const ChoreSelection = () => {
         <Divider mx="md" label="Chores todo" labelPosition="center" />
       </div>
       {/* Todo */}
-      <ChoreTodo updateTodo={updateTodo} />
+      <ChoreTodo updateTodo={updateTodo} choreSegments={choreList} />
     </div>
   );
 };

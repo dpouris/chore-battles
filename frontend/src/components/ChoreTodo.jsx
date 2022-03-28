@@ -1,10 +1,13 @@
 import { useState, useEffect, useRef } from "react";
+import { SegmentedControl } from "@mantine/core";
 import { newFetch } from "../helpers/helpers";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckToSlot } from "@fortawesome/free-solid-svg-icons";
 
-const ChoreTodo = ({ updateTodo }) => {
-  const [incompleteChores, setIncompleteChores] = useState();
+const ChoreTodo = ({ updateTodo, choreSegments }) => {
+  const [allIncompleteChores, setAllIncompleteChores] = useState();
+  const [segmentOptions, setSegmentOptions] = useState();
+  const [selectedChores, setSelectedChores] = useState();
   const choreIdRef = useRef();
 
   const handleCompletion = async (e) => {
@@ -15,10 +18,11 @@ const ChoreTodo = ({ updateTodo }) => {
       body: JSON.stringify({ completed: true }),
     };
     const res = await newFetch(`history/${choreID}`, options);
-    const updatedChores = incompleteChores.filter((chore) => {
+    const updatedChores = selectedChores.filter((chore) => {
       if (chore.id !== res.id) return chore;
     });
-    setIncompleteChores(updatedChores);
+    setAllIncompleteChores(updatedChores);
+    setSelectedChores(updatedChores);
   };
 
   const calcDateDiff = (startDate) => {
@@ -35,39 +39,75 @@ const ChoreTodo = ({ updateTodo }) => {
     if (minsPassed < 60) return minsPassed + "m";
   };
 
+  const handleSegmentChange = (e) => {
+    if (e === "all") {
+      setSelectedChores(allIncompleteChores);
+      return;
+    }
+    const segmentOptions = allIncompleteChores.filter((chore) => {
+      if (chore.name === e) return chore;
+    });
+
+    setSelectedChores(segmentOptions);
+  };
+
   useEffect(async () => {
     const data = await newFetch("history");
     const filteredChores = data.filter((chore) => !chore.completed);
-    setIncompleteChores(filteredChores);
+    setAllIncompleteChores(filteredChores);
+    setSelectedChores(filteredChores);
   }, [updateTodo]);
 
+  useEffect(() => {
+    let formattedChoreSegments;
+    if (choreSegments.length > 0 && !segmentOptions) {
+      formattedChoreSegments = choreSegments.map((chore) => {
+        return { label: chore.name, value: chore.id };
+      });
+      setSegmentOptions([
+        { label: "All", value: "all" },
+        ...formattedChoreSegments,
+      ]);
+    }
+  }, [choreSegments]);
+
   return (
-    <div className="grid lg:grid-cols-4 grid-cols-2 w-full gap-2">
-      {incompleteChores &&
-        incompleteChores.map((chore) => {
-          return (
-            <div
-              key={chore.id}
-              className="flex justify-start items-center px-4 py-1 rounded-lg shadow-inner shadow-gray-300 h-12 w-full lg:w-1/2 hover:bg-blue-400 hover:shadow-md transition-all hover:text-white hover:font-semibold group gap-2"
-            >
-              <p className="pointer-events-none group-hover:hidden">
-                {chore.log_name}
-              </p>
-              <button onClick={handleCompletion}>
-                <FontAwesomeIcon
-                  icon={faCheckToSlot}
-                  className="group-hover:block hidden cursor-pointer pointer-events-none"
-                />
-              </button>
-              <p hidden ref={choreIdRef}>
-                {chore.id}
-              </p>
-              <p className="text-blue-500 truncate group-hover:overflow-visible group-hover:text-white pointer-events-none">
-                {calcDateDiff(chore.date_created)}
-              </p>
-            </div>
-          );
-        })}
+    <div className=" flex flex-col items-center gap-4 ">
+      {segmentOptions && (
+        <SegmentedControl
+          data={segmentOptions}
+          onChange={handleSegmentChange}
+          className="w-full
+          overflow-scroll"
+        />
+      )}
+      <div className="grid lg:grid-cols-4 grid-cols-2 w-full gap-2">
+        {selectedChores &&
+          selectedChores.map((chore) => {
+            return (
+              <div
+                key={chore.id}
+                className="flex justify-start items-center px-4 py-1 rounded-lg shadow-inner shadow-gray-300 h-12 w-full lg:w-1/2 hover:bg-blue-400 hover:shadow-md transition-all hover:text-white hover:font-semibold group gap-2"
+              >
+                <p className="pointer-events-none group-hover:hidden">
+                  {chore.log_name}
+                </p>
+                <button onClick={handleCompletion}>
+                  <FontAwesomeIcon
+                    icon={faCheckToSlot}
+                    className="group-hover:block hidden cursor-pointer pointer-events-none"
+                  />
+                </button>
+                <p hidden ref={choreIdRef}>
+                  {chore.id}
+                </p>
+                <p className="text-blue-500 truncate group-hover:overflow-visible group-hover:text-white pointer-events-none">
+                  {calcDateDiff(chore.date_created)}
+                </p>
+              </div>
+            );
+          })}
+      </div>
     </div>
   );
 };

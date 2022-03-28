@@ -35,8 +35,8 @@ const Login = () => {
   };
 
   useEffect(() => {
-    localStorage.getItem("access") && navigate("/home");
-  });
+    localStorage.getItem("refresh") && navigate("/home");
+  }, []);
 
   return (
     <div className="bg-gradient-to-t bg-blue-500 flex flex-col gap-3 items-center justify-center h-screen">
