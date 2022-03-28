@@ -48,7 +48,7 @@ const ChoreTodo = ({ updateTodo }) => {
           return (
             <div
               key={chore.id}
-              className="flex justify-start items-center px-4 py-1 rounded-lg shadow-inner shadow-gray-300 h-12 w-full lg:w-1/2 hover:bg-blue-400 transition-all hover:text-white hover:font-semibold group gap-2"
+              className="flex justify-start items-center px-4 py-1 rounded-lg shadow-inner shadow-gray-300 h-12 w-full lg:w-1/2 hover:bg-blue-400 hover:shadow-md transition-all hover:text-white hover:font-semibold group gap-2"
             >
               <p className="pointer-events-none group-hover:hidden">
                 {chore.log_name}

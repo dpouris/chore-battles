@@ -3,6 +3,7 @@ import { useNotifications } from "@mantine/notifications";
 import { Button } from "@mantine/core";
 import { useEffect } from "react";
 import Logo from "./Logo";
+import { newFetch } from "../helpers/helpers";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -14,39 +15,23 @@ const Login = () => {
       username: e.target[0].value,
       password: e.target[1].value,
     };
+    const options = { method: "POST", body: JSON.stringify(items) };
 
-    try {
-      const res = await fetch("http://localhost:8000/api/v1/auth/tokens/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(items),
-      });
+    const data = await newFetch("auth/tokens", options);
 
-      const data = await res.json();
-
-      if (data.access) {
-        localStorage.setItem("access", data.access);
-        localStorage.setItem("refresh", data.refresh);
-        navigate("/home");
-        return;
-      }
-
-      notifications.showNotification({
-        title: "Error",
-        message: data.detail,
-        color: "red",
-        autoClose: false,
-      });
-    } catch (err) {
-      notifications.showNotification({
-        title: "Error",
-        message: err.message,
-        color: "red",
-        autoClose: 2000,
-      });
+    if (data.access) {
+      localStorage.setItem("access", data.access);
+      localStorage.setItem("refresh", data.refresh);
+      navigate("/home");
+      return;
     }
+
+    notifications.showNotification({
+      title: "Error",
+      message: data.detail,
+      color: "red",
+      autoClose: false,
+    });
   };
 
   useEffect(() => {
