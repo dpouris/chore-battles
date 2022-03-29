@@ -1,13 +1,16 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { SegmentedControl } from "@mantine/core";
 import { newFetch } from "../helpers/helpers";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckToSlot } from "@fortawesome/free-solid-svg-icons";
+import HistoryContext from "../HistoryContext";
 
-const ChoreTodo = ({ updateTodo, choreSegments }) => {
+const ChoreTodo = ({ choreSegments }) => {
   const [allIncompleteChores, setAllIncompleteChores] = useState();
   const [segmentOptions, setSegmentOptions] = useState();
   const [selectedChores, setSelectedChores] = useState();
+  const { history } = useContext(HistoryContext);
+
   const choreIdRef = useRef();
 
   const handleCompletion = async (e) => {
@@ -52,11 +55,10 @@ const ChoreTodo = ({ updateTodo, choreSegments }) => {
   };
 
   useEffect(async () => {
-    const data = await newFetch("history");
-    const filteredChores = data.filter((chore) => !chore.completed);
+    const filteredChores = history.filter((chore) => !chore.completed);
     setAllIncompleteChores(filteredChores);
     setSelectedChores(filteredChores);
-  }, [updateTodo]);
+  }, [history]);
 
   useEffect(() => {
     let formattedChoreSegments;

@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Table } from "@mantine/core";
-import { newFetch, refreshToken } from "../helpers/helpers";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCircleCheck,
@@ -9,28 +8,14 @@ import {
   faSortDown,
   faSortUp,
 } from "@fortawesome/free-solid-svg-icons";
+import HistoryContext from "../HistoryContext";
 
 const History = () => {
-  const [history, setHistory] = useState([]);
-  const [update, setUpdate] = useState(false);
-
   const [orderName, setOrderName] = useState(null);
   const [orderDate, setOrderDate] = useState(null);
   const [orderCompleted, setOrderCompleted] = useState(null);
 
-  useEffect(async () => {
-    let historyData = await newFetch("history");
-    !historyData.detail && setHistory(historyData);
-
-    if (historyData.detail) {
-      const refresh = localStorage.getItem("refresh");
-      await refreshToken(refresh);
-      historyData = await newFetch("history");
-      !historyData.detail && setHistory(historyData);
-    }
-
-    return;
-  }, []);
+  const { history, setHistory } = useContext(HistoryContext);
 
   const handleSortBy = (e, by) => {
     let sortBy = [];
@@ -63,7 +48,6 @@ const History = () => {
       setOrderDate(null);
     }
 
-    setUpdate(!update);
     setHistory(sortBy);
   };
 

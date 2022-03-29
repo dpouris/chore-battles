@@ -1,12 +1,14 @@
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import { newFetch } from "../helpers/helpers";
 import { useNotifications } from "@mantine/notifications";
+import HistoryContext from "../HistoryContext";
 
-const ChoreItem = ({ chore, setUpdateTodo }) => {
+const ChoreItem = ({ chore }) => {
   const choreRef = useRef();
   const notifications = useNotifications();
+  const { setUpdate } = useContext(HistoryContext);
 
   const handleClick = async () => {
     const options = {
@@ -15,7 +17,7 @@ const ChoreItem = ({ chore, setUpdateTodo }) => {
     };
     const data = await newFetch("history", options);
 
-    setUpdateTodo((prev) => prev + 1);
+    setUpdate((prev) => !prev);
 
     notifications.showNotification({
       title: "Success",
