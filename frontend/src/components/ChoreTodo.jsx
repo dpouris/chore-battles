@@ -36,7 +36,7 @@ const ChoreTodo = ({ updateTodo, choreSegments }) => {
       )}h ${minsPassed % 60}m`;
     if (minsPassed >= 60)
       return `${Math.floor(minsPassed / 60)}h ${minsPassed % 60}m`;
-    if (minsPassed < 60) return minsPassed + "m";
+    return minsPassed + "m";
   };
 
   const handleSegmentChange = (e) => {

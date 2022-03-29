@@ -13,10 +13,11 @@ import { fetchUserDetails, refreshToken } from "./helpers/helpers";
 import jwt_decode from "jwt-decode";
 
 let refreshTkn;
+const REFRESH_TIME = 1800000;
 setInterval(() => {
   refreshTkn = localStorage.getItem("refresh");
   refreshToken(refreshTkn);
-}, 1800000);
+}, REFRESH_TIME);
 
 const App = ({ chore, history }) => {
   const [username, setUsername] = useState();

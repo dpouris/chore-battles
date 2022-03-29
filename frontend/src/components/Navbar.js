@@ -1,7 +1,11 @@
 import NavItem from "./NavItem";
-import { HomeIcon, CogIcon } from "@heroicons/react/solid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBroom, faClockRotateLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBroom,
+  faClockRotateLeft,
+  faUser,
+  faHouseChimney,
+} from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
@@ -11,7 +15,7 @@ const Navbar = () => {
     <nav className="fixed overflow-hidden bottom-0 w-screen h-[9.5vh] py-2 px-10 bg-white flex items-center justify-evenly nav-shadow">
       <ul className="flex text-white">
         <NavItem onClick={() => navigate("/home")} itemName="Home" path="home">
-          <HomeIcon />
+          <FontAwesomeIcon icon={faHouseChimney} size="lg" />
         </NavItem>
         <NavItem
           onClick={() => navigate("/chore")}
@@ -27,8 +31,8 @@ const Navbar = () => {
         >
           <FontAwesomeIcon icon={faClockRotateLeft} size="lg" />
         </NavItem>
-        <NavItem onClick={""} itemName="Settings">
-          <CogIcon />
+        <NavItem onClick={""} itemName="Profile">
+          <FontAwesomeIcon icon={faUser} size="lg" />
         </NavItem>
       </ul>
     </nav>

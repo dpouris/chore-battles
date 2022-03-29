@@ -19,7 +19,7 @@ const NavItem = ({ itemName, children, onClick, path }) => {
       navRef.current.classList.contains(urlPath) &&
         navRef.current.classList.add("open");
     }
-  }, []);
+  }, [window.location.pathname]);
 
   return (
     <li

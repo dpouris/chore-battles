@@ -1,8 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useNotifications } from "@mantine/notifications";
-import { Button } from "@mantine/core";
+import { Button, PasswordInput, TextInput } from "@mantine/core";
 import { useEffect } from "react";
-import Logo from "./Logo";
+import BroomLogo from "../images/cross-broom.png";
 import { newFetch } from "../helpers/helpers";
 
 const Login = () => {
@@ -45,10 +45,19 @@ const Login = () => {
         method="POST"
         className="flex flex-col items-center justify-center gap-3 bg-white p-10 shadow-xl w-screen"
       >
-        <Logo size="md" color="blue" />
+        <img src={BroomLogo} alt="Logo" className="w-20" />
         <h1 className="text-black text-3xl">Login</h1>
-        <div className="flex flex-col gap-1 ">
-          <label htmlFor="Username" className="text-black pl-1">
+        <div className="w-full">
+          <TextInput
+            placeholder="Username"
+            label="Username"
+            radius="md"
+            size="md"
+            // error="Invalid Username"
+            variant="filled"
+            required
+          />
+          {/* <label htmlFor="Username" className="text-black pl-1">
             Username
           </label>
           <input
@@ -57,10 +66,19 @@ const Login = () => {
             name="Username"
             id="Username"
             placeholder="Username"
-          />
+          /> */}
         </div>
-        <div className="flex flex-col gap-1 ">
-          <label htmlFor="Password" className="text-black pl-1">
+        <div className="w-full">
+          <PasswordInput
+            placeholder="Password"
+            label="Password"
+            radius="md"
+            size="md"
+            required
+            // error="Invalid Password"
+            variant="filled"
+          ></PasswordInput>
+          {/* <label htmlFor="Password" className="text-black pl-1">
             Password
           </label>
           <input
@@ -69,7 +87,7 @@ const Login = () => {
             name="Password"
             id="Password"
             placeholder="Password"
-          />
+          /> */}
         </div>
         <Button
           variant="outline"
