@@ -1,9 +1,9 @@
 import { useContext, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
-import { newFetch } from "../helpers/helpers";
 import { useNotifications } from "@mantine/notifications";
 import HistoryContext from "../HistoryContext";
+import baseAxios from "../helpers/axios";
 
 const ChoreItem = ({ chore }) => {
   const choreRef = useRef();
@@ -11,17 +11,17 @@ const ChoreItem = ({ chore }) => {
   const { setUpdate } = useContext(HistoryContext);
 
   const handleClick = async () => {
-    const options = {
-      method: "POST",
-      body: JSON.stringify({ name: choreRef.current.textContent }),
-    };
-    const data = await newFetch("history", options);
+    const response = await baseAxios({
+      url: "history/",
+      method: "post",
+      data: { name: choreRef.current.textContent },
+    });
 
     setUpdate((prev) => !prev);
 
     notifications.showNotification({
       title: "Success",
-      message: data.log_name + " has been added!🎉",
+      message: response.data.log_name + " has been added!🎉",
       color: "green",
       autoClose: 2000,
     });

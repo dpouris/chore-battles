@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
-import { fetchUserDetails, refreshToken } from "./helpers/helpers";
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import baseAxios, { refreshToken } from "./helpers/axios";
 
 const UserContext = createContext();
 
@@ -10,19 +10,29 @@ export const UserProvider = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(async () => {
-    const refresh = localStorage.getItem("refresh");
-    const access = localStorage.getItem("access");
+    const isLogged = localStorage.getItem("lgi");
 
-    !refresh && navigate("/login");
+    if (isLogged) {
+      const response = await refreshToken();
 
-    refreshToken(refresh);
+      if (response.log_out) {
+        localStorage.removeItem("lgi");
+        navigate("/login");
+        return;
+      }
 
-    if (!user.username) {
-      const user_id = jwt_decode(access).user_id;
-      const user_details = await fetchUserDetails(user_id, access);
-      setUser(user_details);
+      let user_id;
+      if (response.status === 200) {
+        user_id = jwt_decode(response.data.access).user_id;
+      }
+
+      if (!user?.username) {
+        baseAxios(`users/${user_id}/`).then((response) => {
+          setUser(response.data);
+        });
+      }
     }
-  }, []);
+  }, [user]);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>

@@ -1,42 +1,48 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useNotifications } from "@mantine/notifications";
 import { Button, PasswordInput, TextInput } from "@mantine/core";
-import { useEffect } from "react";
 import BroomLogo from "../images/cross-broom.png";
-import { newFetch } from "../helpers/helpers";
+import { useEffect } from "react";
+import useAxios from "../hooks/useAxios";
+import { useContext } from "react";
+import UserContext from "../UserContext";
 
 const Login = () => {
   const navigate = useNavigate();
   const notifications = useNotifications();
+  const { loading, error, data, makeRequest } = useAxios();
 
-  const handleSubmit = async (e) => {
+  const { setUser } = useContext(UserContext);
+
+  const handleSubmit = (e) => {
     e.preventDefault();
     const items = {
       username: e.target[0].value,
       password: e.target[1].value,
     };
-    const options = { method: "POST", body: JSON.stringify(items) };
 
-    const data = await newFetch("auth/tokens", options);
+    makeRequest("post", "auth/login/", items);
+  };
+  useEffect(() => {
+    const lgi = localStorage.getItem("lgi");
+    lgi && navigate("/home");
 
-    if (data.access) {
-      localStorage.setItem("access", data.access);
-      localStorage.setItem("refresh", data.refresh);
-      navigate("/home");
-      return;
+    if (error) {
+      notifications.showNotification({
+        title: "Error",
+        message: error.response.data.detail,
+        color: "red",
+        autoClose: 2000,
+      });
     }
 
-    notifications.showNotification({
-      title: "Error",
-      message: data.detail,
-      color: "red",
-      autoClose: false,
-    });
-  };
-
-  useEffect(() => {
-    localStorage.getItem("refresh") && navigate("/home");
-  }, []);
+    if (data && loading) {
+      localStorage.setItem("lgi", "t");
+      setUser(data);
+      navigate("/");
+      return;
+    }
+  }, [error, data, loading]);
 
   return (
     <div className="bg-gradient-to-t bg-blue-500 flex flex-col gap-3 items-center justify-center h-screen">

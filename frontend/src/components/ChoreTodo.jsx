@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef, useContext } from "react";
 import { SegmentedControl } from "@mantine/core";
-import { newFetch } from "../helpers/helpers";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckToSlot } from "@fortawesome/free-solid-svg-icons";
 import HistoryContext from "../HistoryContext";
+import baseAxios from "../helpers/axios";
 
 const ChoreTodo = ({ choreSegments }) => {
   const [allIncompleteChores, setAllIncompleteChores] = useState();
@@ -16,13 +16,19 @@ const ChoreTodo = ({ choreSegments }) => {
   const handleCompletion = async (e) => {
     const choreID = e.target.nextSibling.textContent;
 
-    const options = {
-      method: "PATCH",
-      body: JSON.stringify({ completed: true }),
-    };
-    const res = await newFetch(`history/${choreID}`, options);
+    const response = await baseAxios.patch(`history/${choreID}/`, {
+      completed: true,
+    });
+
+    console.log(response);
+
+    // const options = {
+    //   method: "PATCH",
+    //   body: JSON.stringify({ completed: true }),
+    // };
+    // const res = await newFetch(`history/${choreID}`, options);
     const updatedChores = selectedChores.filter((chore) => {
-      if (chore.id !== res.id) return chore;
+      if (chore.id !== response.data.id) return chore;
     });
     setAllIncompleteChores(updatedChores);
     setSelectedChores(updatedChores);

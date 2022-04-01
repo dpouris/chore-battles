@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
-import { newFetch, refreshToken } from "./helpers/helpers";
+import axios from "axios";
+import baseAxios from "./helpers/axios";
 
 const HistoryContext = createContext();
 
@@ -8,14 +9,10 @@ export const HistoryProvider = ({ children }) => {
   const [update, setUpdate] = useState(true);
 
   useEffect(async () => {
-    let historyData = await newFetch("history");
-    !historyData.detail && setHistory(historyData);
+    const historyData = await baseAxios.get("history/");
 
-    if (historyData.detail) {
-      const refresh = localStorage.getItem("refresh");
-      await refreshToken(refresh);
-      historyData = await newFetch("history");
-      !historyData.detail && setHistory(historyData);
+    if (history.length < historyData.data.length) {
+      setHistory(historyData.data);
     }
 
     return;

@@ -1,16 +1,15 @@
 import { Divider, Menu, Text } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
-import { blackListToken } from "../helpers/helpers";
+import baseAxios from "../helpers/axios";
 
 const ProfileMenu = ({ control }) => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    const refreshTkn = localStorage.getItem("refresh");
-    blackListToken(refreshTkn);
+    localStorage.removeItem("lgi");
 
-    localStorage.removeItem("refresh");
-    localStorage.removeItem("access");
+    const response = await baseAxios.post("auth/logout/");
+    console.log(response);
 
     navigate("/login");
     return;

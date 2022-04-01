@@ -5,22 +5,21 @@ import Header from "./components/Header";
 import Profile from "./components/Profile";
 import Navbar from "./components/Navbar";
 import History from "./components/History";
-// Helpers
-import { refreshToken } from "./helpers/helpers";
 // Context
 import { HistoryProvider } from "./HistoryContext";
 import { ChoreProvider } from "./ChoreContext";
 import UserContext from "./UserContext";
-
-let refreshTkn;
-const REFRESH_TIME = 1800000;
-setInterval(() => {
-  refreshTkn = localStorage.getItem("refresh");
-  refreshToken(refreshTkn);
-}, REFRESH_TIME);
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const App = ({ chore, history }) => {
   const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const isLogged = localStorage.getItem("lgi");
+    !isLogged && navigate("/login");
+  }, []);
 
   return (
     <main className="relative select-none">
