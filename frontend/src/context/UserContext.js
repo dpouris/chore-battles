@@ -15,12 +15,6 @@ export const UserProvider = ({ children }) => {
     if (isLogged) {
       const response = await refreshToken();
 
-      if (response.log_out) {
-        localStorage.removeItem("lgi");
-        navigate("/login");
-        return;
-      }
-
       let user_id;
       if (response.status === 200) {
         user_id = jwt_decode(response.data.access).user_id;

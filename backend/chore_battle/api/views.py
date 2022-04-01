@@ -63,10 +63,13 @@ def get_user_tokens(user):
 class CookieTokenRefreshView(TokenRefreshView):
     def finalize_response(self, request, response, *args, **kwargs):
         if response.data.get('refresh'):
+            tokens = {}
+            tokens['refresh'] = response.data.get('refresh')
+            tokens['access'] = response.data.get('access')
             refresh_cookie_life = settings.SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'] #1 day
             access_cookie_life = settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME']  # 1/2 hour
-            response.set_cookie('refresh_token', response.data['refresh'], expires=refresh_cookie_life, httponly=settings.SIMPLE_JWT['AUTH_COOKIE_HTTP_ONLY'], )
-            response.set_cookie('access_token', response.data['access'], expires=access_cookie_life, httponly=settings.SIMPLE_JWT['AUTH_COOKIE_HTTP_ONLY'], )
+            response.set_cookie('refresh_token', tokens['refresh'], expires=refresh_cookie_life, httponly=settings.SIMPLE_JWT['AUTH_COOKIE_HTTP_ONLY'],samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE'] )
+            response.set_cookie('access_token', tokens['access'], expires=access_cookie_life, httponly=settings.SIMPLE_JWT['AUTH_COOKIE_HTTP_ONLY'], samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE'])
             del response.data['refresh']
         return super().finalize_response(request, response, *args, **kwargs)
     serializer_class = CookieTokenRefreshSerializer
@@ -84,8 +87,8 @@ class LoginView(APIView):
         if user is not None: 
             if user.is_active:
                 tokens = get_user_tokens(user)
-                response.set_cookie(key='refresh_token', value=tokens['refresh'], httponly=settings.SIMPLE_JWT['AUTH_COOKIE_HTTP_ONLY'], expires=refresh_cookie_life,)
-                response.set_cookie(key='access_token', value=tokens['access'], httponly=settings.SIMPLE_JWT['AUTH_COOKIE_HTTP_ONLY'], expires=access_cookie_life,  )
+                response.set_cookie(key='refresh_token', value=tokens['refresh'], httponly=settings.SIMPLE_JWT['AUTH_COOKIE_HTTP_ONLY'], expires=refresh_cookie_life, samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE'])
+                response.set_cookie(key='access_token', value=tokens['access'], httponly=settings.SIMPLE_JWT['AUTH_COOKIE_HTTP_ONLY'], expires=access_cookie_life,  samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE'])
                 response.data = {'data': tokens['access']}
                 return response
             else:

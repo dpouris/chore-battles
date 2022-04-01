@@ -1,6 +1,6 @@
 # Chore-Battle is an app that puts you against your friends and family to fight on who can do the most chores!
 
-**The app is developed using React.js and Django and is currently in development.**
+**The app is currently being developed using React.js and Django.**
 
 ### To run the app do the following:
 

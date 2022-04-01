@@ -36,7 +36,15 @@ baseAxios.interceptors.response.use(
   async (error) => {
     console.dir(error);
     if (error.response.status === 500 || error.response.status === 401) {
-      await refreshToken();
+      const response = await refreshToken();
+
+      if (response.log_out) {
+        await baseAxios("auth/logout");
+        localStorage.removeItem("lgi");
+        window.location.href = "/login";
+
+        return Promise.reject(error);
+      }
       return await axios(error.config);
     }
     if (error.status === 403) {
@@ -53,7 +61,6 @@ refreshInstance.interceptors.response.use(
   async (error) => {
     console.dir(error);
     if (error.response.status === 401) {
-      localStorage.removeItem("lgi");
       return { ...error, log_out: true };
     }
     return Promise.reject(error);

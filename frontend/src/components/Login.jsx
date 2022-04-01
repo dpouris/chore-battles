@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import useAxios from "../hooks/useAxios";
 import { useContext } from "react";
 import UserContext from "../context/UserContext";
+import baseAxios from "../helpers/axios";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -22,9 +23,12 @@ const Login = () => {
 
     makeRequest("post", "auth/login/", items);
   };
-  useEffect(() => {
+  useEffect(async () => {
     const lgi = localStorage.getItem("lgi");
-    lgi && navigate("/home");
+
+    if (lgi) {
+      navigate("/home");
+    }
 
     if (error) {
       notifications.showNotification({
