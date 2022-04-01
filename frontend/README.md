@@ -1,8 +1,8 @@
-# Chore-Battle is an app that puts you against your friends and family and fight on who can do the most chores!
+# Chore-Battle is an app that puts you against your friends and family to fight on who can do the most chores!
 
-This is the initial build of the project and currently working on it to add more features.
+**The app is developed using React.js and Django and is currently in development.**
 
-To run the app do the following ->
+### To run the app do the following:
 
 1. CD into the chore_battle directory
    `cd chore-battle/backend/chore_battle`

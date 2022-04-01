@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
+from django.conf import settings
 
 from .serializers import ChoreSerializer, HistorySerializer, UserSerializer
 from .permissions import isOwner
@@ -62,10 +63,10 @@ def get_user_tokens(user):
 class CookieTokenRefreshView(TokenRefreshView):
     def finalize_response(self, request, response, *args, **kwargs):
         if response.data.get('refresh'):
-            refresh_cookie_life = 3600 * 24 # 1 day
-            access_cookie_life = 3600 / 2 # 1/2 hour
-            response.set_cookie('refresh_token', response.data['refresh'], expires=refresh_cookie_life, httponly=True, )
-            response.set_cookie('access_token', response.data['access'], expires=access_cookie_life, httponly=True, )
+            refresh_cookie_life = settings.SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'] #1 day
+            access_cookie_life = settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME']  # 1/2 hour
+            response.set_cookie('refresh_token', response.data['refresh'], expires=refresh_cookie_life, httponly=settings.SIMPLE_JWT['AUTH_COOKIE_HTTP_ONLY'], )
+            response.set_cookie('access_token', response.data['access'], expires=access_cookie_life, httponly=settings.SIMPLE_JWT['AUTH_COOKIE_HTTP_ONLY'], )
             del response.data['refresh']
         return super().finalize_response(request, response, *args, **kwargs)
     serializer_class = CookieTokenRefreshSerializer
@@ -76,15 +77,15 @@ class LoginView(APIView):
         username = data.get('username')
         password = data.get('password')
         response = Response()
-        refresh_cookie_life = 3600 * 24 #1 day
-        access_cookie_life = 3600 / 2  # 1/2 hour
+        refresh_cookie_life = settings.SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'] #1 day
+        access_cookie_life = settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME']  # 1/2 hour
         user = authenticate(username=username, password=password)
 
         if user is not None: 
             if user.is_active:
                 tokens = get_user_tokens(user)
-                response.set_cookie(key='refresh_token', value=tokens['refresh'], httponly=True, expires=refresh_cookie_life,)
-                response.set_cookie(key='access_token', value=tokens['access'], httponly=True,expires=access_cookie_life,  )
+                response.set_cookie(key='refresh_token', value=tokens['refresh'], httponly=settings.SIMPLE_JWT['AUTH_COOKIE_HTTP_ONLY'], expires=refresh_cookie_life,)
+                response.set_cookie(key='access_token', value=tokens['access'], httponly=settings.SIMPLE_JWT['AUTH_COOKIE_HTTP_ONLY'], expires=access_cookie_life,  )
                 response.data = {'data': tokens['access']}
                 return response
             else:
