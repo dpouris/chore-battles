@@ -1,14 +1,20 @@
+from rest_framework import generics, permissions
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
-from rest_framework import generics, permissions
 from rest_framework.views import APIView
-from rest_framework_simplejwt.tokens import RefreshToken
+
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
+
 from .serializers import ChoreSerializer, HistorySerializer, UserSerializer
-from .models import Chore, History
-from rest_framework_simplejwt.views import TokenBlacklistView
 from .permissions import isOwner
+from .models import Chore, History
+
+from rest_framework_simplejwt.views import TokenBlacklistView
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenRefreshView, TokenObtainPairView
+from rest_framework_simplejwt.serializers import TokenRefreshSerializer
+from rest_framework_simplejwt.exceptions import InvalidToken
 
 
 class ChoreView(ModelViewSet):
@@ -36,14 +42,6 @@ class UserView(generics.RetrieveAPIView):
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-
-
-    # ----Test
-
-from rest_framework_simplejwt.views import TokenRefreshView, TokenObtainPairView
-from rest_framework_simplejwt.serializers import TokenRefreshSerializer
-from rest_framework_simplejwt.exceptions import InvalidToken
-
 class CookieTokenRefreshSerializer(TokenRefreshSerializer):
     refresh = None
     def validate(self, attrs):
@@ -53,17 +51,13 @@ class CookieTokenRefreshSerializer(TokenRefreshSerializer):
         else:
             raise InvalidToken('No valid token found in cookie \'refresh_token\'')
 
-# class CookieTokenObtainPairView(TokenObtainPairView):
-#   def finalize_response(self, request, response, *args, **kwargs):
-#     if response.data.get('refresh'):
-#         cookie_max_age = 3600 * 24 * 14 # 14 days
-#         response.set_cookie('refresh_token', response.data['refresh'], max_age=cookie_max_age, httponly=True )
-#         del response.data['refresh']
-#     if response.data.get('access'):
-#         cookie_max_age = 3600  # 1 hour
-#         response.set_cookie('access_token', response.data['access'], max_age=cookie_max_age, httponly=True )
-#         del response.data['access']
-#     return super().finalize_response(request, response, *args, **kwargs)
+# A function that get a unique pair of tokens for an account
+def get_user_tokens(user):
+    tokens = RefreshToken.for_user(user)
+    return {
+        'refresh': str(tokens),
+        'access': str(tokens.access_token),
+    }
 
 class CookieTokenRefreshView(TokenRefreshView):
     def finalize_response(self, request, response, *args, **kwargs):
@@ -76,15 +70,6 @@ class CookieTokenRefreshView(TokenRefreshView):
         return super().finalize_response(request, response, *args, **kwargs)
     serializer_class = CookieTokenRefreshSerializer
 
-
-# A function that get a unique pair of tokens for an account
-def get_user_tokens(user):
-    tokens = RefreshToken.for_user(user)
-    return {
-        'refresh': str(tokens),
-        'access': str(tokens.access_token),
-    }
-
 class LoginView(APIView):
     def post(self,request): 
         data = request.data
@@ -92,7 +77,7 @@ class LoginView(APIView):
         password = data.get('password')
         response = Response()
         refresh_cookie_life = 3600 * 24 #1 day
-        access_cookie_life = 3600 / 2  # 1/21 hour
+        access_cookie_life = 3600 / 2  # 1/2 hour
         user = authenticate(username=username, password=password)
 
         if user is not None: 
@@ -113,3 +98,17 @@ class LogoutView(TokenBlacklistView):
         response.delete_cookie('refresh_token')
         response.delete_cookie('access_token')
         return super().finalize_response(request, response, *args, **kwargs)
+
+# Alternate way to get access token and set refresh on httponly cookie
+
+# class CookieTokenObtainPairView(TokenObtainPairView):
+#   def finalize_response(self, request, response, *args, **kwargs):
+#     if response.data.get('refresh'):
+#         cookie_max_age = 3600 * 24 * 14 # 14 days
+#         response.set_cookie('refresh_token', response.data['refresh'], max_age=cookie_max_age, httponly=True )
+#         del response.data['refresh']
+#     if response.data.get('access'):
+#         cookie_max_age = 3600  # 1 hour
+#         response.set_cookie('access_token', response.data['access'], max_age=cookie_max_age, httponly=True )
+#         del response.data['access']
+#     return super().finalize_response(request, response, *args, **kwargs)

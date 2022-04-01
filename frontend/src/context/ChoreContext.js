@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
-import baseAxios from "./helpers/axios";
+import baseAxios from "../helpers/axios";
 const ChoreContext = createContext();
 
 export const ChoreProvider = ({ children }) => {

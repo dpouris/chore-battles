@@ -9,7 +9,6 @@ const ProfileMenu = ({ control }) => {
     localStorage.removeItem("lgi");
 
     const response = await baseAxios.post("auth/logout/");
-    console.log(response);
 
     navigate("/login");
     return;

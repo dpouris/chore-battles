@@ -6,9 +6,9 @@ import Profile from "./components/Profile";
 import Navbar from "./components/Navbar";
 import History from "./components/History";
 // Context
-import { HistoryProvider } from "./HistoryContext";
-import { ChoreProvider } from "./ChoreContext";
-import UserContext from "./UserContext";
+import { HistoryProvider } from "./context/HistoryContext";
+import { ChoreProvider } from "./context/ChoreContext";
+import UserContext from "./context/UserContext";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 

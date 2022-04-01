@@ -4,7 +4,7 @@ import ChoreItem from "./ChoreItem";
 import ChoreTodo from "./ChoreTodo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHandSparkles, faListCheck } from "@fortawesome/free-solid-svg-icons";
-import ChoreContext from "../ChoreContext";
+import ChoreContext from "../context/ChoreContext";
 
 const ChoreSelection = () => {
   const [updateTodo, setUpdateTodo] = useState(0);

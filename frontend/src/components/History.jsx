@@ -8,7 +8,7 @@ import {
   faSortDown,
   faSortUp,
 } from "@fortawesome/free-solid-svg-icons";
-import HistoryContext from "../HistoryContext";
+import HistoryContext from "../context/HistoryContext";
 
 const History = () => {
   const [orderName, setOrderName] = useState(null);

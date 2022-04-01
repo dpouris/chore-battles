@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-import baseAxios, { refreshToken } from "./helpers/axios";
+import baseAxios, { refreshToken } from "../helpers/axios";
 
 const UserContext = createContext();
 

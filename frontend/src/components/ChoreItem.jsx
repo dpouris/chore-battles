@@ -2,7 +2,7 @@ import { useContext, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import { useNotifications } from "@mantine/notifications";
-import HistoryContext from "../HistoryContext";
+import HistoryContext from "../context/HistoryContext";
 import baseAxios from "../helpers/axios";
 
 const ChoreItem = ({ chore }) => {

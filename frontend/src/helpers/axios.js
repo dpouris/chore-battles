@@ -53,6 +53,7 @@ refreshInstance.interceptors.response.use(
   async (error) => {
     console.dir(error);
     if (error.response.status === 401) {
+      localStorage.removeItem("lgi");
       return { ...error, log_out: true };
     }
     return Promise.reject(error);

@@ -15,7 +15,6 @@ const NavItem = ({ itemName, children, onClick, path }) => {
   useEffect(() => {
     if (navRef.current) {
       const urlPath = window.location.pathname.slice(1);
-      console.log(urlPath);
       navRef.current.classList.contains(urlPath) &&
         navRef.current.classList.add("open");
     }

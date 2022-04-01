@@ -5,13 +5,12 @@ import BroomLogo from "../images/cross-broom.png";
 import { useEffect } from "react";
 import useAxios from "../hooks/useAxios";
 import { useContext } from "react";
-import UserContext from "../UserContext";
+import UserContext from "../context/UserContext";
 
 const Login = () => {
   const navigate = useNavigate();
   const notifications = useNotifications();
   const { loading, error, data, makeRequest } = useAxios();
-
   const { setUser } = useContext(UserContext);
 
   const handleSubmit = (e) => {

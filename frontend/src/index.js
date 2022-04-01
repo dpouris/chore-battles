@@ -5,7 +5,7 @@ import App from "./App";
 import Login from "./components/Login";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { NotificationsProvider } from "@mantine/notifications";
-import { UserProvider } from "./UserContext";
+import { UserProvider } from "./context/UserContext";
 
 ReactDOM.render(
   <NotificationsProvider>

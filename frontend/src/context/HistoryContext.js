@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
-import baseAxios from "./helpers/axios";
+import baseAxios from "../helpers/axios";
 
 const HistoryContext = createContext();
 

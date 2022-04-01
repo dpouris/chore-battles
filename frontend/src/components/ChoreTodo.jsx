@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useContext } from "react";
 import { SegmentedControl } from "@mantine/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckToSlot } from "@fortawesome/free-solid-svg-icons";
-import HistoryContext from "../HistoryContext";
+import HistoryContext from "../context/HistoryContext";
 import baseAxios from "../helpers/axios";
 
 const ChoreTodo = ({ choreSegments }) => {
@@ -20,13 +20,6 @@ const ChoreTodo = ({ choreSegments }) => {
       completed: true,
     });
 
-    console.log(response);
-
-    // const options = {
-    //   method: "PATCH",
-    //   body: JSON.stringify({ completed: true }),
-    // };
-    // const res = await newFetch(`history/${choreID}`, options);
     const updatedChores = selectedChores.filter((chore) => {
       if (chore.id !== response.data.id) return chore;
     });
