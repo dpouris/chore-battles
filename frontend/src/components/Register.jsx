@@ -4,6 +4,7 @@ import UserContext from "../context/UserContext";
 
 import { useNotifications } from "@mantine/notifications";
 import { Button, PasswordInput, TextInput } from "@mantine/core";
+import { PasswordStrength } from "./PasswordRegisterField";
 
 import BroomLogo from "../images/cross-broom.png";
 import useAxios from "../hooks/useAxios";
@@ -78,7 +79,7 @@ const Register = () => {
           /> */}
         </div>
         <div className="w-full">
-          <PasswordInput
+          {/* <PasswordInput
             placeholder="Password"
             label="Password"
             radius="md"
@@ -86,7 +87,8 @@ const Register = () => {
             required
             // error="Invalid Password"
             variant="filled"
-          ></PasswordInput>
+          ></PasswordInput> */}
+          <PasswordStrength></PasswordStrength>
           {/* <label htmlFor="Password" className="text-black pl-1">
             Password
           </label>

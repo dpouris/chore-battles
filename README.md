@@ -65,6 +65,8 @@
 [![Login Screen](./frontend/src/images/4.png)] -->
 
 <img src="./frontend/src/images/LoginScreen.png" alt="Login" width="350"/>
+<img src="./frontend/src/images/RegisterScreen.png" alt="Register" width="350"/>
+<img src="./frontend/src/images/HomeScreenVS.png" alt="HomeScreenVS" width="350"/>
 <img src="./frontend/src/images/ChoresTodoSegmentControl.png" alt="ChoresTodoSegmentControl" width="350"/>
 <img src="./frontend/src/images/ChoresTodoSegmentControlled.png" alt="ChoresTodoSegmentControlled.png" width="350"/>
 <img src="./frontend/src/images/HistoryUnordered.png" alt="HistoryUnordered" width="350"/>
