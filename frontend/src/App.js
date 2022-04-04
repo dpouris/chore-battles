@@ -11,8 +11,9 @@ import { ChoreProvider } from "./context/ChoreContext";
 import UserContext from "./context/UserContext";
 // Router
 import { useNavigate } from "react-router-dom";
+import Home from "./components/Home";
 
-const App = ({ chore, history }) => {
+const App = ({ home, chore, history }) => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -25,6 +26,7 @@ const App = ({ chore, history }) => {
     <main className="relative select-none">
       <HistoryProvider>
         <Header>{user.username && <Profile username={user.username} />}</Header>
+        {home && <Home />}
         <ChoreProvider>{chore && <ChoreSelection />}</ChoreProvider>
         {history && <History />}
       </HistoryProvider>

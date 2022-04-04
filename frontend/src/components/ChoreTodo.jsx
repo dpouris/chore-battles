@@ -5,34 +5,40 @@ import { faCheckToSlot } from "@fortawesome/free-solid-svg-icons";
 import HistoryContext from "../context/HistoryContext";
 import baseAxios from "../helpers/axios";
 import { useNotifications } from "@mantine/notifications";
+import UserContext from "../context/UserContext";
 
 const ChoreTodo = ({ choreSegments }) => {
   const [allIncompleteChores, setAllIncompleteChores] = useState();
   const [segmentOptions, setSegmentOptions] = useState();
   const [selectedChores, setSelectedChores] = useState();
-  const { history, setPoints, setUpdate } = useContext(HistoryContext);
+  const { history, points, setPoints, setUpdate } = useContext(HistoryContext);
+  const { user } = useContext(UserContext);
   const notifications = useNotifications();
 
-  const choreIdRef = useRef();
+  const chorePoints = useRef();
 
   const handleCompletion = async (e) => {
     const choreID = e.target.nextSibling.textContent;
 
-    const response = await baseAxios.patch(`history/${choreID}/`, {
+    const choreResponse = await baseAxios.patch(`history/${choreID}/`, {
       completed: true,
+      points: chorePoints.current.textContent,
     });
 
-    const updatedChores = selectedChores.filter((chore) => {
-      if (chore.id !== response.data.id) return chore;
+    const updatedChores = selectedChores.filter(async (chore) => {
+      if (chore.id !== choreResponse.data.id) return chore;
       setPoints((prev) => prev + chore.points);
+      await baseAxios.patch(`score/${user.id}/`, {
+        score: points + chore.points,
+      });
     });
     setAllIncompleteChores(updatedChores);
     setSelectedChores(updatedChores);
     setUpdate((prev) => !prev);
 
     notifications.showNotification({
-      title: `+${response.data.points} POINTS`,
-      message: `${response.data.log_name} has been completed!🎉`,
+      title: `+${choreResponse.data.points} POINTS`,
+      message: `${choreResponse.data.log_name} has been completed!🎉`,
       color: "green",
       autoClose: 2000,
     });
@@ -107,7 +113,7 @@ const ChoreTodo = ({ choreSegments }) => {
                   {chore.log_name}
                 </p>
                 <p className="pointer-events-none group-hover:block hidden">
-                  {chore.points} P
+                  <span ref={chorePoints}>{chore.points}</span>P
                 </p>
                 <p className="text-blue-500 truncate group-hover:overflow-visible group-hover:text-white pointer-events-none">
                   {calcDateDiff(chore.date_created)}
@@ -121,9 +127,7 @@ const ChoreTodo = ({ choreSegments }) => {
                     className="group-hover:block hidden cursor-pointer pointer-events-none"
                   />
                 </button>
-                <p hidden ref={choreIdRef}>
-                  {chore.id}
-                </p>
+                <p hidden>{chore.id}</p>
               </div>
             );
           })

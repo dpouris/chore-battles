@@ -127,7 +127,7 @@ const History = () => {
           </tr>
         </thead>
         <tbody>
-          {history &&
+          {history?.length > 0 &&
             history.map((chore) => {
               return (
                 <tr key={chore.id}>
@@ -162,6 +162,11 @@ const History = () => {
             })}
         </tbody>
       </Table>
+      {history?.length <= 0 && (
+        <div className="w-screen h-[80vh] flex items-center justify-center text-center">
+          No history 📖
+        </div>
+      )}
     </div>
   );
 };

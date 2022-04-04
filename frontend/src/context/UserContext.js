@@ -12,11 +12,10 @@ export const UserProvider = ({ children }) => {
   useEffect(async () => {
     const isLogged = localStorage.getItem("lgi");
 
-    if (isLogged) {
+    if (!user?.username) {
       const response = await refreshToken();
 
       let user_id;
-      let scoreId;
       if (response.status === 200) {
         user_id = jwt_decode(response.data.access).user_id;
       }
@@ -25,16 +24,9 @@ export const UserProvider = ({ children }) => {
         baseAxios(`users/${user_id}/`).then((response) => {
           const userInfo = response.data;
           setUser(userInfo);
-          // scoreId = response.data.score;
-          // baseAxios(`score/${scoreId}/`).then((response) => {
-          //   console.log(response.data);
-          //   setUser({ ...userInfo, score: response.data.score });
-          // });
         });
       }
     }
-
-    console.log(user);
   }, [user]);
 
   return (

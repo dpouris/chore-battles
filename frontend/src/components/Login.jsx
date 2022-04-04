@@ -39,7 +39,7 @@ const Login = () => {
       });
     }
 
-    if (data && loading) {
+    if (data?.data && loading) {
       localStorage.setItem("lgi", "t");
       setUser(data);
       navigate("/");
@@ -105,7 +105,7 @@ const Login = () => {
         >
           Login
         </Button>
-        <Link className="text-blue-400 underline text-left" to="/signup">
+        <Link className="text-blue-400 underline text-left" to="/register">
           Don't have an account yet? Sign up.
         </Link>
       </form>

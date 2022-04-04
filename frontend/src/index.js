@@ -6,6 +6,7 @@ import Login from "./components/Login";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { NotificationsProvider } from "@mantine/notifications";
 import { UserProvider } from "./context/UserContext";
+import Register from "./components/Register";
 
 ReactDOM.render(
   <NotificationsProvider>
@@ -17,7 +18,7 @@ ReactDOM.render(
           <Route path="chore" element={<App chore />} />
           <Route path="history" element={<App history />} />
           <Route path="login" element={<Login />} />
-          <Route path="signup" element={<Login />} />
+          <Route path="register" element={<Register />} />
         </Routes>
       </UserProvider>
     </Router>

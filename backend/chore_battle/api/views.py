@@ -17,16 +17,20 @@ from rest_framework_simplejwt.views import TokenRefreshView, TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenRefreshSerializer
 from rest_framework_simplejwt.exceptions import InvalidToken
 
+import re
 
 class ChoreView(ModelViewSet):
     queryset = Chore.objects.all()
     serializer_class = ChoreSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-class ScoreView(generics.RetrieveAPIView):
+class DetailScoreView(generics.RetrieveUpdateAPIView):
     queryset = Score.objects.all()
     serializer_class = ScoreSerializer
 
+class AllScoresView(generics.ListAPIView):
+    queryset = Score.objects.all()
+    serializer_class = ScoreSerializer
 
 class HistoryView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -38,12 +42,27 @@ class HistoryView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
+
 class HistoryDetailView(generics.RetrieveUpdateAPIView):
     queryset = History.objects.all()
     serializer_class = HistorySerializer
     permission_classes = (isOwner,)
 
-class UserView(generics.RetrieveAPIView):
+    def patch(self, request, *args, **kwargs):
+        # Handling score update on completing a chore
+        user_score = Score.objects.get(user=request.user)
+        user_score.score += int(request.data['points'])
+        user_score.save()
+        # Deleting the request points from the chore
+        del (request.data['points'])
+        return self.partial_update(request, *args, **kwargs)
+
+class DetailUserView(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class AllUsersView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -65,35 +84,59 @@ def get_user_tokens(user):
         'access': str(tokens.access_token),
     }
 
+def set_cookie_response(tokens:dict = {"access": '', "refresh": ''}, response:Response = None) -> Response:
+    if response is None:
+        response = Response()
+    refresh_cookie_life = settings.SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'] #1 day
+    access_cookie_life = settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME']  # 1/2 hour
+    response.set_cookie('access_token', tokens['access'], expires=access_cookie_life, httponly=settings.SIMPLE_JWT['AUTH_COOKIE_HTTP_ONLY'],samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE'] )
+    response.set_cookie('refresh_token', tokens['refresh'], expires=refresh_cookie_life, httponly=settings.SIMPLE_JWT['AUTH_COOKIE_HTTP_ONLY'],samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE'] )
+    return response
+
 class CookieTokenRefreshView(TokenRefreshView):
     def finalize_response(self, request, response, *args, **kwargs):
         if response.data.get('refresh'):
             tokens = {}
             tokens['refresh'] = response.data.get('refresh')
             tokens['access'] = response.data.get('access')
-            refresh_cookie_life = settings.SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'] #1 day
-            access_cookie_life = settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME']  # 1/2 hour
-            response.set_cookie('refresh_token', tokens['refresh'], expires=refresh_cookie_life, httponly=settings.SIMPLE_JWT['AUTH_COOKIE_HTTP_ONLY'],samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE'] )
-            response.set_cookie('access_token', tokens['access'], expires=access_cookie_life, httponly=settings.SIMPLE_JWT['AUTH_COOKIE_HTTP_ONLY'], samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE'])
+            response = set_cookie_response(tokens, response)
             del response.data['refresh']
         return super().finalize_response(request, response, *args, **kwargs)
     serializer_class = CookieTokenRefreshSerializer
+
+class RegisterView(APIView):
+    def post(self, request):
+        username = request.data.get('username')
+        password = request.data.get('password')
+
+
+        if len(username) < 2 or len(password) < 2:
+            return Response({'error': 'Please provide both username and password'}, status=400)
+        if User.objects.filter(username=username).exists():
+            return Response({'error': 'Username already exists'}, status=400)
+
+        user = User.objects.create_user(username=username, password=password)
+        score = Score.objects.create(user=user)
+        score.save()
+        user.save()
+
+        tokens = get_user_tokens(user)
+        response = set_cookie_response(tokens)
+        response.data = {'success': True}
+        return response
+
 
 class LoginView(APIView):
     def post(self,request): 
         data = request.data
         username = data.get('username')
         password = data.get('password')
-        response = Response()
-        refresh_cookie_life = settings.SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'] #1 day
-        access_cookie_life = settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME']  # 1/2 hour
         user = authenticate(username=username, password=password)
 
         if user is not None: 
             if user.is_active:
                 tokens = get_user_tokens(user)
-                response.set_cookie(key='refresh_token', value=tokens['refresh'], httponly=settings.SIMPLE_JWT['AUTH_COOKIE_HTTP_ONLY'], expires=refresh_cookie_life, samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE'])
-                response.set_cookie(key='access_token', value=tokens['access'], httponly=settings.SIMPLE_JWT['AUTH_COOKIE_HTTP_ONLY'], expires=access_cookie_life,  samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE'])
+                response = set_cookie_response(tokens)
                 response.data = {'data': tokens['access']}
                 return response
             else:

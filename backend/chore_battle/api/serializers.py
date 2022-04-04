@@ -15,7 +15,7 @@ class HistorySerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User 
-        fields = ['username', 'email', 'score']
+        fields = ['id','username', 'email', 'score']
         
 
 class ScoreSerializer(serializers.ModelSerializer):

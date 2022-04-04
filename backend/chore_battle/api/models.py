@@ -32,7 +32,7 @@ class History(models.Model):
         verbose_name_plural = 'History'
 
 class Score(models.Model):
-    user = models.OneToOneField(to=User, on_delete=models.CASCADE)
+    user = models.OneToOneField(to=User, on_delete=models.CASCADE, related_name="score", default=User, primary_key=True)
     score = models.IntegerField(default=0, editable=False)
 
     def __str__(self): 
@@ -43,3 +43,7 @@ class Score(models.Model):
             completed_user_chores = self.user.history.filter(completed=True)
             self.score = sum([chore.points for chore in completed_user_chores])
         return super(Score,self).save(*args, **kwargs)
+
+    class Meta: 
+        verbose_name_plural = 'Score'
+    
