@@ -17,7 +17,6 @@ from rest_framework_simplejwt.views import TokenRefreshView, TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenRefreshSerializer
 from rest_framework_simplejwt.exceptions import InvalidToken
 
-import re
 
 class ChoreView(ModelViewSet):
     queryset = Chore.objects.all()
@@ -77,7 +76,7 @@ class CookieTokenRefreshSerializer(TokenRefreshSerializer):
             raise InvalidToken('No valid token found in cookie \'refresh_token\'')
 
 # A function that get a unique pair of tokens for an account
-def get_user_tokens(user):
+def get_user_tokens(user: User) -> dict:
     tokens = RefreshToken.for_user(user)
     return {
         'refresh': str(tokens),

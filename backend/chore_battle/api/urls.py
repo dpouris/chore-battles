@@ -16,8 +16,8 @@ urlpatterns = [
 
     path('users/<int:pk>/', DetailUserView.as_view(), name="user-detail"),
     path('users/', AllUsersView.as_view(), name="all-users"),
-    path('score/<int:pk>/', DetailScoreView.as_view(), name="score"),
-    path('scores/', AllScoresView.as_view(), name="score"),
+    path('score/<int:pk>/', DetailScoreView.as_view(), name="score-detail"),
+    path('scores/', AllScoresView.as_view(), name="all-scores"),
 ]
 
 urlpatterns += ROUTER.urls
