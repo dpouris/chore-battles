@@ -4,12 +4,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckToSlot } from "@fortawesome/free-solid-svg-icons";
 import HistoryContext from "../context/HistoryContext";
 import baseAxios from "../helpers/axios";
+import { useNotifications } from "@mantine/notifications";
 
 const ChoreTodo = ({ choreSegments }) => {
   const [allIncompleteChores, setAllIncompleteChores] = useState();
   const [segmentOptions, setSegmentOptions] = useState();
   const [selectedChores, setSelectedChores] = useState();
-  const { history } = useContext(HistoryContext);
+  const { history, setPoints, setUpdate } = useContext(HistoryContext);
+  const notifications = useNotifications();
 
   const choreIdRef = useRef();
 
@@ -22,9 +24,18 @@ const ChoreTodo = ({ choreSegments }) => {
 
     const updatedChores = selectedChores.filter((chore) => {
       if (chore.id !== response.data.id) return chore;
+      setPoints((prev) => prev + chore.points);
     });
     setAllIncompleteChores(updatedChores);
     setSelectedChores(updatedChores);
+    setUpdate((prev) => !prev);
+
+    notifications.showNotification({
+      title: `+${response.data.points} POINTS`,
+      message: `${response.data.log_name} has been completed!🎉`,
+      color: "green",
+      autoClose: 2000,
+    });
   };
 
   const calcDateDiff = (startDate) => {
@@ -84,18 +95,27 @@ const ChoreTodo = ({ choreSegments }) => {
           overflow-scroll"
         />
       )}
-      <div className="grid lg:grid-cols-4 grid-cols-2 w-full gap-2">
-        {selectedChores &&
+      <div className="flex flex-col items-center justify-center w-full gap-3">
+        {selectedChores?.length > 0 ? (
           selectedChores.map((chore) => {
             return (
               <div
                 key={chore.id}
-                className="flex justify-start items-center px-4 py-1 rounded-lg shadow-inner shadow-gray-300 h-12 w-full lg:w-1/2 hover:bg-blue-400 hover:shadow-md transition-all hover:text-white hover:font-semibold group gap-2"
+                className="flex justify-between items-center px-4 py-1 rounded-lg shadow-inner shadow-gray-300 h-12 w-full lg:w-1/2 hover:bg-blue-400 hover:shadow-md transition-all hover:text-white hover:font-semibold group gap-2"
               >
                 <p className="pointer-events-none group-hover:hidden">
                   {chore.log_name}
                 </p>
-                <button onClick={handleCompletion}>
+                <p className="pointer-events-none group-hover:block hidden">
+                  {chore.points} P
+                </p>
+                <p className="text-blue-500 truncate group-hover:overflow-visible group-hover:text-white pointer-events-none">
+                  {calcDateDiff(chore.date_created)}
+                </p>
+                <button
+                  onClick={handleCompletion}
+                  className="hidden group-hover:block"
+                >
                   <FontAwesomeIcon
                     icon={faCheckToSlot}
                     className="group-hover:block hidden cursor-pointer pointer-events-none"
@@ -104,12 +124,12 @@ const ChoreTodo = ({ choreSegments }) => {
                 <p hidden ref={choreIdRef}>
                   {chore.id}
                 </p>
-                <p className="text-blue-500 truncate group-hover:overflow-visible group-hover:text-white pointer-events-none">
-                  {calcDateDiff(chore.date_created)}
-                </p>
               </div>
             );
-          })}
+          })
+        ) : (
+          <h2>No chores todo. 🧼</h2>
+        )}
       </div>
     </div>
   );

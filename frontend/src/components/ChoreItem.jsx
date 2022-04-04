@@ -11,10 +11,8 @@ const ChoreItem = ({ chore }) => {
   const { setUpdate } = useContext(HistoryContext);
 
   const handleClick = async () => {
-    const response = await baseAxios({
-      url: "history/",
-      method: "post",
-      data: { name: choreRef.current.textContent },
+    const response = await baseAxios.post("history/", {
+      name: choreRef.current.textContent,
     });
 
     setUpdate((prev) => !prev);

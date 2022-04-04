@@ -48,7 +48,7 @@ baseAxios.interceptors.response.use(
       return await axios(error.config);
     }
     if (error.status === 403) {
-      return { ...error, authorized: false };
+      return { ...error, unauthorized: true };
     }
     return Promise.reject(error);
   }

@@ -12,10 +12,11 @@ import HistoryContext from "../context/HistoryContext";
 
 const History = () => {
   const [orderName, setOrderName] = useState(null);
+  const [orderPoints, setOrderPoints] = useState(null);
   const [orderDate, setOrderDate] = useState(null);
   const [orderCompleted, setOrderCompleted] = useState(null);
 
-  const { history, setHistory } = useContext(HistoryContext);
+  const { history } = useContext(HistoryContext);
 
   const handleSortBy = (e, by) => {
     let sortBy = [];
@@ -34,26 +35,33 @@ const History = () => {
 
     if (e.target.classList.contains("name")) {
       setOrderName(!orderName);
+      setOrderPoints(null);
+      setOrderDate(null);
+      setOrderCompleted(null);
+    }
+    if (e.target.classList.contains("points")) {
+      setOrderPoints(!orderPoints);
+      setOrderName(null);
       setOrderDate(null);
       setOrderCompleted(null);
     }
     if (e.target.classList.contains("date")) {
       setOrderDate(!orderDate);
       setOrderName(null);
+      setOrderPoints(null);
       setOrderCompleted(null);
     }
     if (e.target.classList.contains("completed")) {
       setOrderCompleted(!orderCompleted);
       setOrderName(null);
+      setOrderPoints(null);
       setOrderDate(null);
     }
-
-    setHistory(sortBy);
   };
 
   return (
     <div className="fixed bottom-[9.5vh] overflow-scroll w-screen top-[9.5vh]">
-      <Table striped highlightOnHover horizontalSpacing="lg">
+      <Table striped highlightOnHover horizontalSpacing="sm">
         <thead className="sticky top-0">
           <tr className=" bg-gray-200 shadow-md">
             <th
@@ -65,6 +73,21 @@ const History = () => {
                 icon={
                   orderName !== null
                     ? orderName === true
+                      ? faSortDown
+                      : faSortUp
+                    : faSort
+                }
+              />
+            </th>
+            <th
+              onClick={(e) => handleSortBy(e, "points")}
+              className="hover:bg-gray-100 cursor-pointer points"
+            >
+              Points{" "}
+              <FontAwesomeIcon
+                icon={
+                  orderPoints !== null
+                    ? orderPoints === true
                       ? faSortDown
                       : faSortUp
                     : faSort
@@ -109,6 +132,13 @@ const History = () => {
               return (
                 <tr key={chore.id}>
                   <td>{chore.log_name}</td>
+                  <td
+                    className={
+                      chore.completed ? "text-green-500" : "text-red-500"
+                    }
+                  >
+                    {chore.points}
+                  </td>
                   <td className="flex gap-2">
                     <span className="text-blue-500 font-normal">
                       {new Date(chore.date_created).toLocaleString()}
@@ -118,12 +148,12 @@ const History = () => {
                     {chore.completed ? (
                       <FontAwesomeIcon
                         icon={faCircleCheck}
-                        className="text-xl text-green-400"
+                        className=" text-green-400"
                       />
                     ) : (
                       <FontAwesomeIcon
                         icon={faCircleXmark}
-                        className="text-xl text-red-400"
+                        className=" text-red-400"
                       />
                     )}
                   </td>

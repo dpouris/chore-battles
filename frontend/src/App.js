@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 // Components
 import ChoreSelection from "./components/ChoreSelection";
 import Header from "./components/Header";
@@ -9,7 +9,7 @@ import History from "./components/History";
 import { HistoryProvider } from "./context/HistoryContext";
 import { ChoreProvider } from "./context/ChoreContext";
 import UserContext from "./context/UserContext";
-import { useEffect } from "react";
+// Router
 import { useNavigate } from "react-router-dom";
 
 const App = ({ chore, history }) => {
@@ -23,8 +23,8 @@ const App = ({ chore, history }) => {
 
   return (
     <main className="relative select-none">
-      <Header>{user.username && <Profile username={user.username} />}</Header>
       <HistoryProvider>
+        <Header>{user.username && <Profile username={user.username} />}</Header>
         <ChoreProvider>{chore && <ChoreSelection />}</ChoreProvider>
         {history && <History />}
       </HistoryProvider>

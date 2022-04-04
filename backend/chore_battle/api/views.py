@@ -7,9 +7,9 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.conf import settings
 
-from .serializers import ChoreSerializer, HistorySerializer, UserSerializer
+from .serializers import ChoreSerializer, HistorySerializer, UserSerializer, ScoreSerializer
 from .permissions import isOwner
-from .models import Chore, History
+from .models import Chore, History, Score
 
 from rest_framework_simplejwt.views import TokenBlacklistView
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -22,6 +22,11 @@ class ChoreView(ModelViewSet):
     queryset = Chore.objects.all()
     serializer_class = ChoreSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+class ScoreView(generics.RetrieveAPIView):
+    queryset = Score.objects.all()
+    serializer_class = ScoreSerializer
+
 
 class HistoryView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
