@@ -19,6 +19,8 @@ const Home = () => {
       }
       return [user.username, 0];
     });
+
+    usersScores.sort((a, b) => b[1] - a[1]);
     setUserWScores(usersScores);
   }, []);
 
@@ -27,7 +29,14 @@ const Home = () => {
       <UserContainer>
         {userWScores &&
           userWScores.map((user) => {
-            return <UserBox key={user[0]} username={user[0]} score={user[1]} />;
+            return (
+              <UserBox
+                key={user[0]}
+                username={user[0]}
+                score={user[1]}
+                rank={userWScores.indexOf(user) + 1}
+              />
+            );
           })}
       </UserContainer>
     </div>

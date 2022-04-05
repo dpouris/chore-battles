@@ -15,14 +15,14 @@ const ChoreTodo = ({ choreSegments }) => {
   const { user } = useContext(UserContext);
   const notifications = useNotifications();
 
-  const chorePoints = useRef();
-
   const handleCompletion = async (e) => {
     const choreID = e.target.nextSibling.textContent;
+    const chorePoints =
+      e.target.previousSibling.previousSibling.children[0].textContent;
 
     const choreResponse = await baseAxios.patch(`history/${choreID}/`, {
       completed: true,
-      points: chorePoints.current.textContent,
+      points: chorePoints,
     });
 
     const updatedChores = selectedChores.filter(async (chore) => {
@@ -113,7 +113,7 @@ const ChoreTodo = ({ choreSegments }) => {
                   {chore.log_name}
                 </p>
                 <p className="pointer-events-none group-hover:block hidden">
-                  <span ref={chorePoints}>{chore.points}</span>P
+                  <span>{chore.points}</span>P
                 </p>
                 <p className="text-blue-500 truncate group-hover:overflow-visible group-hover:text-white pointer-events-none">
                   {calcDateDiff(chore.date_created)}

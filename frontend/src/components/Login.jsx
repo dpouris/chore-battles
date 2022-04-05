@@ -6,7 +6,6 @@ import { useEffect } from "react";
 import useAxios from "../hooks/useAxios";
 import { useContext } from "react";
 import UserContext from "../context/UserContext";
-import baseAxios from "../helpers/axios";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -48,7 +47,7 @@ const Login = () => {
   }, [error, data, loading]);
 
   return (
-    <div className="bg-gradient-to-t bg-blue-500 flex flex-col gap-3 items-center justify-center h-screen">
+    <div className="bg-blue-500 flex flex-col gap-3 items-center justify-center h-screen">
       <form
         onSubmit={handleSubmit}
         method="POST"
@@ -62,7 +61,6 @@ const Login = () => {
             label="Username"
             radius="md"
             size="md"
-            // error="Invalid Username"
             variant="filled"
             required
           />

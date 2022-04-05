@@ -54,8 +54,8 @@ export function PasswordStrength() {
       position="bottom"
       placement="start"
       withArrow
-      styles={{ popover: { width: "100%" } }}
       trapFocus={false}
+      className="w-[100%]"
       transition="pop-top-left"
       onFocusCapture={() => setPopoverOpened(true)}
       onBlurCapture={() => setPopoverOpened(false)}

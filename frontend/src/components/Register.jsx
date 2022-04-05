@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../context/UserContext";
 
 import { useNotifications } from "@mantine/notifications";
-import { Button, PasswordInput, TextInput } from "@mantine/core";
+import { Button, TextInput } from "@mantine/core";
 import { PasswordStrength } from "./PasswordRegisterField";
 
 import BroomLogo from "../images/cross-broom.png";
@@ -49,7 +49,7 @@ const Register = () => {
   }, [error, data, loading]);
 
   return (
-    <div className="bg-gradient-to-t bg-blue-500 flex flex-col gap-3 items-center justify-center h-screen">
+    <div className="bg-blue-500 flex flex-col gap-3 items-center justify-center h-screen">
       <form
         onSubmit={handleSubmit}
         method="POST"
@@ -57,48 +57,26 @@ const Register = () => {
       >
         <img src={BroomLogo} alt="Logo" className="w-20" />
         <h1 className="text-black text-3xl">Register</h1>
-        <div className="w-full">
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+          }}
+        >
           <TextInput
             placeholder="Username"
             label="Username"
             radius="md"
             size="md"
             // error="Invalid Username"
+            className="w-[100%]"
             variant="filled"
             required
           />
-          {/* <label htmlFor="Username" className="text-black pl-1">
-            Username
-          </label>
-          <input
-            className="p-3 w-[80vw] rounded outline-none shadow-lg shadow-gray-300"
-            type="text"
-            name="Username"
-            id="Username"
-            placeholder="Username"
-          /> */}
-        </div>
-        <div className="w-full">
-          {/* <PasswordInput
-            placeholder="Password"
-            label="Password"
-            radius="md"
-            size="md"
-            required
-            // error="Invalid Password"
-            variant="filled"
-          ></PasswordInput> */}
-          <PasswordStrength></PasswordStrength>
-          {/* <label htmlFor="Password" className="text-black pl-1">
-            Password
-          </label>
-          <input
-            className="p-3 w-[80vw] rounded outline-none shadow-lg shadow-gray-300"
-            type="Password"
-            name="Password"
-            id="Password"
-            placeholder="Password"
-          /> */}
+          <PasswordStrength />
         </div>
         <Button
           variant="outline"

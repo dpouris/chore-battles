@@ -12,8 +12,9 @@ import UserContext from "./context/UserContext";
 // Router
 import { useNavigate } from "react-router-dom";
 import Home from "./components/Home";
+import Account from "./components/Account";
 
-const App = ({ home, chore, history }) => {
+const App = ({ home, chore, history, account }) => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -29,6 +30,7 @@ const App = ({ home, chore, history }) => {
         {home && <Home />}
         <ChoreProvider>{chore && <ChoreSelection />}</ChoreProvider>
         {history && <History />}
+        {account && <Account />}
       </HistoryProvider>
       <Navbar />
     </main>

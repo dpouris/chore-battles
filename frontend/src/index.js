@@ -17,6 +17,7 @@ ReactDOM.render(
           <Route path="home" element={<App home />} />
           <Route path="chore" element={<App chore />} />
           <Route path="history" element={<App history />} />
+          <Route path="account" element={<App account />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
         </Routes>

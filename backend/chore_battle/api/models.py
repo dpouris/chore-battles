@@ -30,6 +30,7 @@ class History(models.Model):
 
     class Meta: 
         verbose_name_plural = 'History'
+        ordering = ['-date_created']
 
 class Score(models.Model):
     user = models.OneToOneField(to=User, on_delete=models.CASCADE, related_name="score", default=User, primary_key=True)
@@ -45,5 +46,6 @@ class Score(models.Model):
         return super(Score,self).save(*args, **kwargs)
 
     class Meta: 
+        ordering = ['-score']
         verbose_name_plural = 'Score'
     

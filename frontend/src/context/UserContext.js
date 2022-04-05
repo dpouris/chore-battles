@@ -12,7 +12,7 @@ export const UserProvider = ({ children }) => {
   useEffect(async () => {
     const isLogged = localStorage.getItem("lgi");
 
-    if (!user?.username) {
+    if (!user?.username && isLogged) {
       const response = await refreshToken();
 
       let user_id;

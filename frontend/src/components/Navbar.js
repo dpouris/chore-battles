@@ -31,7 +31,11 @@ const Navbar = () => {
         >
           <FontAwesomeIcon icon={faClockRotateLeft} size="lg" />
         </NavItem>
-        <NavItem onClick={""} itemName="Profile">
+        <NavItem
+          onClick={() => navigate("/account")}
+          itemName="Profile"
+          path="account"
+        >
           <FontAwesomeIcon icon={faUser} size="lg" />
         </NavItem>
       </ul>

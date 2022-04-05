@@ -71,3 +71,4 @@
 <img src="./frontend/src/images/ChoresTodoSegmentControlled.png" alt="ChoresTodoSegmentControlled.png" width="350"/>
 <img src="./frontend/src/images/HistoryUnordered.png" alt="HistoryUnordered" width="350"/>
 <img src="./frontend/src/images/HistoryOrderedCompleted.png" alt="HistoryUnordered" width="350"/>
+<img src="./frontend/src/images/AccountScreen.png" alt="AccountScreen" width="350"/>
