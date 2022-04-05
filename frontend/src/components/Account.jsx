@@ -1,15 +1,21 @@
 import UserContext from "../context/UserContext";
 import { useContext } from "react";
 
-import { TextInput, Divider, PasswordInput, Button } from "@mantine/core";
+import { TextInput, Divider, Button } from "@mantine/core";
+import { useNavigate } from "react-router-dom";
+import { useNotifications } from "@mantine/notifications";
 
 const Account = () => {
   const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+  const notifications = useNotifications();
 
   return (
     <div className="fixed bottom-[9.5vh] overflow-y-scroll w-screen top-[9.5vh]">
       <div className="p-10 flex flex-col gap-4 items-center justify-center">
-        <h1 className="w-screen text-center text-3xl mt-4">Account</h1>
+        <h1 className="w-screen text-center text-3xl text-blue-400 ">
+          Account
+        </h1>
         <TextInput
           placeholder="Username"
           label="Username"
@@ -46,27 +52,13 @@ const Account = () => {
         labelPosition="center"
       />
       <div className="p-10 flex flex-col gap-4 items-center justify-center">
-        <Button variant="filled" className="bg-blue-400">
+        <Button
+          variant="filled"
+          className="bg-blue-400"
+          onClick={() => navigate("/account/change-password")}
+        >
           Change password
         </Button>
-        {/* <form action="/">
-          <PasswordInput
-            placeholder="Previous Password"
-            label="Previous Password"
-            radius="md"
-            size="md"
-            variant="filled"
-            name="prev-password"
-          ></PasswordInput>
-          <PasswordInput
-            placeholder="New Password"
-            label="New Password"
-            radius="md"
-            size="md"
-            variant="filled"
-            name="new-password"
-          ></PasswordInput>
-        </form> */}
       </div>
     </div>
   );

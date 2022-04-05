@@ -7,6 +7,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { NotificationsProvider } from "@mantine/notifications";
 import { UserProvider } from "./context/UserContext";
 import Register from "./components/Register";
+import ChanglePassword from "./components/ChanglePassword";
 
 ReactDOM.render(
   <NotificationsProvider>
@@ -20,6 +21,7 @@ ReactDOM.render(
           <Route path="account" element={<App account />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="account/change-password" element={<ChanglePassword />} />
         </Routes>
       </UserProvider>
     </Router>
