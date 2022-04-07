@@ -19,9 +19,11 @@
    - `python manage.py migrate`
 
 4. Then run the createsuperuser command and add your info to create an admin user
+
    `python manage.py createsuperuser`
 
 5. Finally run the server. It will open on port 8000 (http://localhost:8000/api/v1/)
+
    `python manage.py runserver`
 
 # Moving on to the frontend
@@ -32,12 +34,11 @@
 
    ```
    ❯ ls
-   LICENSE.txt        db.sqlite3         postcss.config.js
-   README.md          manage.py          public
-   api                node_modules       requirements.txt
-   api_auth           package-lock.json  src
-   chore_battle       package.json       tailwind.config.js
-   README.md         frontend          package.json
+   LICENSE.txt        manage.py          public
+   README.md          node_modules       requirements.txt
+   api                package-lock.json  src
+   api_auth           package.json       tailwind.config.js
+   chore_battle       postcss.config.js
    ```
 
    - Go ahead and install the dependencies
