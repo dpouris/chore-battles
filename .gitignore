@@ -97,7 +97,7 @@ ipython_config.py
 #Pipfile.lock
 
 # Word
-.docx
+*.docx
 
 # poetry
 #   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.
