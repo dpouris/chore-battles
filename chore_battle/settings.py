@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+import django_heroku
+
+django_heroku.settings(locals())
 
 import os
 from dotenv import load_dotenv
