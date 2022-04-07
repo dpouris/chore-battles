@@ -13,14 +13,14 @@ const Login = () => {
   const { loading, error, data, makeRequest } = useAxios();
   const { setUser } = useContext(UserContext);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const items = {
       username: e.target[0].value,
       password: e.target[1].value,
     };
 
-    makeRequest("post", "auth/login/", items);
+    await makeRequest("post", "auth/login/", items);
   };
   useEffect(async () => {
     const lgi = localStorage.getItem("lgi");
@@ -29,22 +29,24 @@ const Login = () => {
       navigate("/home");
     }
 
-    if (error) {
+    if (error?.error) {
       notifications.showNotification({
         title: "Error",
-        message: error.response.data.detail,
+        message: error.error,
         color: "red",
         autoClose: 2000,
       });
+      delete error.error;
     }
+    console.log(data);
 
-    if (data?.data && loading) {
+    if (data?.data) {
       localStorage.setItem("lgi", "t");
       setUser(data);
       navigate("/");
-      return;
+      delete data.data;
     }
-  }, [error, data, loading]);
+  }, [data, error, loading]);
 
   return (
     <div className="bg-blue-500 flex flex-col gap-3 items-center justify-center h-screen">

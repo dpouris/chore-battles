@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import baseAxios from "../helpers/axios";
 
 const useAxios = () => {
@@ -12,13 +12,11 @@ const useAxios = () => {
     try {
       const response = await baseAxios[method](url, body);
       setData(response.data);
-    } catch (error) {
-      setError(error);
+    } catch (err) {
+      setError(err.response.data);
     }
     setLoading(false);
   };
-
-  useEffect(() => {}, []);
 
   return { loading, error, data, makeRequest };
 };

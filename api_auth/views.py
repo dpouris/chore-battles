@@ -71,7 +71,7 @@ class LoginView(APIView):
             else:
                 return Response({"active": False})
 
-        return Response({'error': 'Invalid Credentials'})
+        return Response({'error': 'Invalid Credentials'}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
 class LogoutView(TokenBlacklistView):
     def finalize_response(self, request, response, *args, **kwargs): 
