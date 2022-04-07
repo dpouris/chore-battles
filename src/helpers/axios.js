@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://calm-ravine-96929.herokuapp.com/api/v1/";
+const BASE_URL = "/api/v1/";
 
 // Axios base instance
 
