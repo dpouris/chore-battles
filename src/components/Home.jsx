@@ -1,3 +1,4 @@
+import { Loader } from "@mantine/core";
 import { useEffect, useState } from "react";
 import baseAxios from "../helpers/axios";
 
@@ -27,7 +28,7 @@ const Home = () => {
   return (
     <div className="fixed bottom-[9.5vh] overflow-y-scroll w-screen top-[9.5vh]">
       <UserContainer>
-        {userWScores &&
+        {userWScores ? (
           userWScores.map((user) => {
             return (
               <UserBox
@@ -37,7 +38,10 @@ const Home = () => {
                 rank={userWScores.indexOf(user) + 1}
               />
             );
-          })}
+          })
+        ) : (
+          <Loader className="absolute top-[50%]" />
+        )}
       </UserContainer>
     </div>
   );

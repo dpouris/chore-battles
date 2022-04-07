@@ -54,7 +54,9 @@ const Register = () => {
         onSubmit={handleSubmit}
         method="POST"
         className="flex flex-col items-center justify-center gap-3 bg-white p-10 shadow-xl w-screen"
+        autoComplete="off"
       >
+        <input type="hidden" value="kdmanopswautfll" autoComplete="hidden" />
         <img src={BroomLogo} alt="Logo" className="w-20" />
         <h1 className="text-black text-3xl">Register</h1>
         <div
@@ -71,10 +73,9 @@ const Register = () => {
             label="Username"
             radius="md"
             size="md"
-            // error="Invalid Username"
             className="w-[100%]"
-            variant="filled"
             required
+            autoComplete="off"
           />
           <PasswordStrength />
         </div>

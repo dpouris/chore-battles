@@ -67,6 +67,7 @@ export function PasswordStrength() {
           description="A password should include letters in lower and uppercase, at least 1 number, at least 1 special symbol"
           value={value}
           onChange={(event) => setValue(event.currentTarget.value)}
+          autoComplete="off"
         />
       }
     >
