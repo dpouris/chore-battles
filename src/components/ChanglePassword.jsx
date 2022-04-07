@@ -2,6 +2,7 @@ import { Button, Divider, PasswordInput } from "@mantine/core";
 import { useNotifications } from "@mantine/notifications";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Header from "./Header";
 import UserContext from "../context/UserContext";
 import baseAxios from "../helpers/axios";
 
@@ -60,39 +61,42 @@ const ChanglePassword = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center gap-3">
-      <h1 className="my-5 text-3xl">Change password</h1>
-      <Divider className="w-screen"></Divider>
-      <form
-        onSubmit={handleSubmit}
-        className="h-screen w-screen flex flex-col items-center mt-10 p-4 gap-4"
-      >
-        <PasswordInput
-          placeholder="Previous Password"
-          label="Previous Password"
-          radius="md"
-          size="md"
-          variant="filled"
-          name="prev-password"
-          className="w-full"
-          required
-          error={credError}
-        ></PasswordInput>
-        <PasswordInput
-          placeholder="New Password"
-          label="New Password"
-          radius="md"
-          size="md"
-          variant="filled"
-          name="new-password"
-          className="w-full"
-          required
-        ></PasswordInput>
-        <Button variant="filled" className="bg-blue-400" type="submit">
-          Change
-        </Button>
-      </form>{" "}
-    </div>
+    <>
+      <Header />
+      <div className="flex flex-col items-center justify-center gap-3">
+        <h1 className="my-5 text-3xl">Change password</h1>
+        <Divider className="w-screen"></Divider>
+        <form
+          onSubmit={handleSubmit}
+          className="h-screen w-screen flex flex-col items-center mt-10 p-4 gap-4"
+        >
+          <PasswordInput
+            placeholder="Previous Password"
+            label="Previous Password"
+            radius="md"
+            size="md"
+            variant="filled"
+            name="prev-password"
+            className="w-full"
+            required
+            error={credError}
+          ></PasswordInput>
+          <PasswordInput
+            placeholder="New Password"
+            label="New Password"
+            radius="md"
+            size="md"
+            variant="filled"
+            name="new-password"
+            className="w-full"
+            required
+          ></PasswordInput>
+          <Button variant="filled" className="bg-blue-400" type="submit">
+            Change
+          </Button>
+        </form>{" "}
+      </div>
+    </>
   );
 };
 

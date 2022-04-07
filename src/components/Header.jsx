@@ -5,7 +5,7 @@ import BroomLogo from "../images/cross-broom.png";
 const Header = ({ children }) => {
   const navigate = useNavigate();
   return (
-    <header className="bg-white shadow-lg flex items-center justify-between p-5 sticky top-0 h-[9.5vh]">
+    <header className="bg-white shadow-lg flex items-center justify-between p-5 sticky top-0 h-[9.5vh] z-50">
       <img
         src={BroomLogo}
         alt="Logo"
