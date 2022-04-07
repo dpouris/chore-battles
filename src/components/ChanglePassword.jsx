@@ -1,11 +1,12 @@
 import { Button, Divider, PasswordInput } from "@mantine/core";
 import { useNotifications } from "@mantine/notifications";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import baseAxios from "../helpers/axios";
 
 const ChanglePassword = () => {
+  const [credError, setCredError] = useState(null);
   const { user } = useContext(UserContext);
   const notifications = useNotifications();
   const navigate = useNavigate();
@@ -32,6 +33,7 @@ const ChanglePassword = () => {
         color: "red",
         autoClose: 3000,
       });
+      setCredError(err.response.data.error);
     }
 
     if (authenticateResponse.data?.success) {
@@ -74,6 +76,7 @@ const ChanglePassword = () => {
           name="prev-password"
           className="w-full"
           required
+          error={credError}
         ></PasswordInput>
         <PasswordInput
           placeholder="New Password"

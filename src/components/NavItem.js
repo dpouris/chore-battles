@@ -33,9 +33,9 @@ const NavItem = ({ itemName, children, onClick, path }) => {
         className={`${
           navRef.current &&
           (navRef.current.classList.contains("open")
-            ? "text-blue-400"
-            : "text-black")
-        } w-7 text-black translate-y-3 group-hover:translate-y-0 transition-[transform] pointer-events-none text-center`}
+            ? "blue-text"
+            : "black-text")
+        } w-7 translate-y-3 group-hover:translate-y-0 transition-[transform] pointer-events-none text-center`}
       >
         {children}
       </div>

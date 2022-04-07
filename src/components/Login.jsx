@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useNotifications } from "@mantine/notifications";
 import { Button, PasswordInput, TextInput } from "@mantine/core";
 import BroomLogo from "../images/cross-broom.png";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useAxios from "../hooks/useAxios";
 import { useContext } from "react";
 import UserContext from "../context/UserContext";
@@ -12,6 +12,7 @@ const Login = () => {
   const notifications = useNotifications();
   const { loading, error, data, makeRequest } = useAxios();
   const { setUser } = useContext(UserContext);
+  const [credError, setCredError] = useState();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,9 +37,9 @@ const Login = () => {
         color: "red",
         autoClose: 2000,
       });
+      setCredError(error.error);
       delete error.error;
     }
-    console.log(data);
 
     if (data?.data) {
       localStorage.setItem("lgi", "t");
@@ -65,6 +66,7 @@ const Login = () => {
             size="md"
             variant="filled"
             required
+            error={credError}
           />
           {/* <label htmlFor="Username" className="text-black pl-1">
             Username
@@ -86,6 +88,7 @@ const Login = () => {
             required
             // error="Invalid Password"
             variant="filled"
+            error={credError}
           ></PasswordInput>
           {/* <label htmlFor="Password" className="text-black pl-1">
             Password
