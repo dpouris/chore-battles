@@ -12,9 +12,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
-import django_heroku
-
-django_heroku.settings(locals())
 
 import os
 from dotenv import load_dotenv
@@ -57,6 +54,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -187,3 +185,7 @@ SIMPLE_JWT = {
                                     # This
 
 }
+
+import django_heroku
+
+django_heroku.settings(locals())
