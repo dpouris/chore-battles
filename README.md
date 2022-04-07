@@ -4,9 +4,9 @@
 
 ### To run the app do the following:
 
-1. CD into the chore_battle directory
+1. CD into the chore_battles directory
 
-   `cd chore-battle/backend/chore_battle`
+   `cd chore-battles`
 
 2. Install the requirements from requirements.txt for the backend to run properly
 
@@ -26,14 +26,17 @@
 
 # Moving on to the frontend
 
-1. To start, `CD` into the root directory of the project where the backend and frontend folders are and run `npm i`
+1. To start, `CD` into the root directory of the project (If you're not already there) and run `npm i`
 
    - This is what the directory should look like if you type the `ls` command
 
    ```
-   > ls
-   ---
-   LICENSE.txt       backend           package-lock.json
+   ❯ ls
+   LICENSE.txt        db.sqlite3         postcss.config.js
+   README.md          manage.py          public
+   api                node_modules       requirements.txt
+   api_auth           package-lock.json  src
+   chore_battle       package.json       tailwind.config.js
    README.md         frontend          package.json
    ```
 
@@ -41,15 +44,7 @@
 
      `npm i`
 
-2. Then, `CD` into the frontend directory
-
-   `cd frontend/`
-
-3. Then run `npm i` to install the package.json dependencies for the frontend
-
-   `npm i`
-
-4. Finally run `npm start` to start the frontend server, it will open on port 3000 (http://localhost:3000/)
+2. Then, run `npm start` to start the frontend server, it will open on port 3000 (http://localhost:3000/)
 
    `npm start`
 
@@ -59,16 +54,16 @@
 
 # Screenshots
 
-<!-- [![History Screen](./frontend/src/images/1.png)]
-[![Chores Screen](./frontend/src/images/2.png)]
-[![Login Screen](./frontend/src/images/3.png)]
-[![Login Screen](./frontend/src/images/4.png)] -->
+<!-- [![History Screen](./src/images/1.png)]
+[![Chores Screen](./src/images/2.png)]
+[![Login Screen](./src/images/3.png)]
+[![Login Screen](./src/images/4.png)] -->
 
-<img src="./frontend/src/images/LoginScreen.png" alt="Login" width="350"/>
-<img src="./frontend/src/images/RegisterScreen.png" alt="Register" width="350"/>
-<img src="./frontend/src/images/HomeScreenVS.png" alt="HomeScreenVS" width="350"/>
-<img src="./frontend/src/images/ChoresTodoSegmentControl.png" alt="ChoresTodoSegmentControl" width="350"/>
-<img src="./frontend/src/images/ChoresTodoSegmentControlled.png" alt="ChoresTodoSegmentControlled.png" width="350"/>
-<img src="./frontend/src/images/HistoryUnordered.png" alt="HistoryUnordered" width="350"/>
-<img src="./frontend/src/images/HistoryOrderedCompleted.png" alt="HistoryUnordered" width="350"/>
-<img src="./frontend/src/images/AccountScreen.png" alt="AccountScreen" width="350"/>
+<img src="./src/images/LoginScreen.png" alt="Login" width="350"/>
+<img src="./src/images/RegisterScreen.png" alt="Register" width="350"/>
+<img src="./src/images/HomeScreenVS.png" alt="HomeScreenVS" width="350"/>
+<img src="./src/images/ChoresTodoSegmentControl.png" alt="ChoresTodoSegmentControl" width="350"/>
+<img src="./src/images/ChoresTodoSegmentControlled.png" alt="ChoresTodoSegmentControlled.png" width="350"/>
+<img src="./src/images/HistoryUnordered.png" alt="HistoryUnordered" width="350"/>
+<img src="./src/images/HistoryOrderedCompleted.png" alt="HistoryUnordered" width="350"/>
+<img src="./src/images/AccountScreen.png" alt="AccountScreen" width="350"/>
