@@ -13,6 +13,7 @@ const useAxios = () => {
       const response = await baseAxios[method](url, body);
       setData(response.data);
     } catch (err) {
+      console.log(err);
       setError(err.response.data);
     }
     setLoading(false);

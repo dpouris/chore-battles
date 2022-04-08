@@ -6,10 +6,7 @@ const ProfileMenu = ({ control }) => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    localStorage.removeItem("lgi");
-
-    const response = await baseAxios.post("auth/logout/");
-
+    await baseAxios.post("auth/logout/");
     navigate("/login");
     return;
   };

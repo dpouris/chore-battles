@@ -96,8 +96,8 @@ ipython_config.py
 #   install all needed dependencies.
 #Pipfile.lock
 
-# Word
-*.docx
+# Text
+*.txt
 
 # poetry
 #   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.

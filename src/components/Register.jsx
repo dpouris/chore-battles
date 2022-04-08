@@ -1,4 +1,4 @@
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../context/UserContext";
 
@@ -14,6 +14,7 @@ const Register = () => {
   const notifications = useNotifications();
   const { loading, error, data, makeRequest } = useAxios();
   const { setUser } = useContext(UserContext);
+  const [usernameError, setUsernameError] = useState();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,27 +22,21 @@ const Register = () => {
       username: e.target[0].value,
       password: e.target[1].value,
     };
-
     makeRequest("post", "auth/register/", items);
   };
   useEffect(async () => {
-    const lgi = localStorage.getItem("lgi");
-
-    if (lgi) {
-      navigate("/home");
-    }
-
-    if (error) {
+    if (error?.error) {
       notifications.showNotification({
         title: "Error",
-        message: error.response.data.detail,
+        message: error.error,
         color: "red",
         autoClose: 2000,
       });
+      setUsernameError(error.error);
+      delete error.error;
     }
 
     if (data && loading) {
-      localStorage.setItem("lgi", "t");
       setUser(data);
       navigate("/");
       return;
@@ -56,7 +51,6 @@ const Register = () => {
         className="flex flex-col items-center justify-center gap-3 bg-white p-10 shadow-xl w-screen"
         autoComplete="off"
       >
-        <input type="hidden" value="kdmanopswautfll" autoComplete="hidden" />
         <img src={BroomLogo} alt="Logo" className="w-20" />
         <h1 className="text-black text-3xl">Register</h1>
         <div
@@ -75,6 +69,7 @@ const Register = () => {
             size="md"
             className="w-[100%]"
             required
+            error={usernameError}
             autoComplete="off"
           />
           <PasswordStrength />

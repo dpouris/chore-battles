@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import useAxios from "../hooks/useAxios";
 import { useContext } from "react";
 import UserContext from "../context/UserContext";
+import { refreshToken } from "../helpers/axios";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -22,11 +23,20 @@ const Login = () => {
     };
 
     await makeRequest("post", "auth/login/", items);
-  };
-  useEffect(async () => {
-    const lgi = localStorage.getItem("lgi");
 
-    if (lgi) {
+    console.log(error);
+  };
+
+  useEffect(async () => {
+    if (data?.data) {
+      setUser(data);
+      navigate("/");
+      delete data.data;
+    }
+
+    const refreshRes = await refreshToken();
+
+    if (!refreshRes.log_out) {
       navigate("/home");
     }
 
@@ -39,13 +49,6 @@ const Login = () => {
       });
       setCredError(error.error);
       delete error.error;
-    }
-
-    if (data?.data) {
-      localStorage.setItem("lgi", "t");
-      setUser(data);
-      navigate("/");
-      delete data.data;
     }
   }, [data, error, loading]);
 

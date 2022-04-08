@@ -36,6 +36,11 @@ code {
   color: rgb(96 165 250 / var(--tw-text-opacity));
 }
 
+.open > .icon {
+  --tw-text-opacity: 1;
+  color: rgb(96 165 250 / var(--tw-text-opacity)) !important;
+}
+
 .blue-text {
   --tw-text-opacity: 1;
   color: rgb(96 165 250 / var(--tw-text-opacity));

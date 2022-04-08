@@ -7,12 +7,9 @@ const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({});
-  // const navigate = useNavigate();
 
   useEffect(async () => {
-    const isLogged = localStorage.getItem("lgi");
-
-    if (!user?.username && isLogged) {
+    if (!user?.username) {
       const response = await refreshToken();
 
       let user_id;

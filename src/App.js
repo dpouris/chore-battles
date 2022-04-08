@@ -16,12 +16,6 @@ import Account from "./components/Account";
 
 const App = ({ home, chore, history, account }) => {
   const { user } = useContext(UserContext);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const isLogged = localStorage.getItem("lgi");
-    !isLogged && navigate("/login");
-  }, []);
 
   return (
     <main className="relative select-none">

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "/api/v1/";
+const BASE_URL = "http://localhost:8000/api/v1/";
 
 // Axios base instance
 
@@ -40,7 +40,6 @@ baseAxios.interceptors.response.use(
 
       if (response.log_out) {
         await baseAxios("auth/logout");
-        localStorage.removeItem("lgi");
         window.location.href = "/login";
 
         return Promise.reject(error);
