@@ -27,12 +27,12 @@ const Account = () => {
           disabled
         ></TextInput>
         <TextInput
-          placeholder="Password"
-          label="Password"
+          placeholder="Email"
+          label="Email"
           radius="md"
           size="md"
           variant="filled"
-          name="password"
+          name="email"
           value={user.email}
           disabled
         ></TextInput>
