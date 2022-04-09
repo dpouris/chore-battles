@@ -21,7 +21,7 @@ const ChoreTodo = ({ choreSegments }) => {
       e.target.previousSibling.previousSibling.children[0].textContent;
 
     // Remove the parent || chore todo on click
-    e.target.parentElement.remove();
+    // e.currentTarget.parentNode.remove();
 
     // Change the chore todo to completed
     const choreResponse = await baseAxios.patch(`history/${choreID}/`, {
