@@ -20,6 +20,8 @@ const ChoreTodo = ({ choreSegments }) => {
     const chorePoints =
       e.target.previousSibling.previousSibling.children[0].textContent;
 
+    console.dir(e.target.parentElement.remove());
+
     const choreResponse = await baseAxios.patch(`history/${choreID}/`, {
       completed: true,
       points: chorePoints,
