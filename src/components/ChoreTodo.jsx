@@ -20,13 +20,16 @@ const ChoreTodo = ({ choreSegments }) => {
     const chorePoints =
       e.target.previousSibling.previousSibling.children[0].textContent;
 
-    console.dir(e.target.parentElement.remove());
+    // Remove the parent || chore todo on click
+    e.target.parentElement.remove();
 
+    // Change the chore todo to completed
     const choreResponse = await baseAxios.patch(`history/${choreID}/`, {
       completed: true,
       points: chorePoints,
     });
 
+    // Get the new history with updated chores to use in the history screen
     const updatedChores = selectedChores.filter(async (chore) => {
       if (chore.id !== choreResponse.data.id) return chore;
       setPoints((prev) => prev + chore.points);
@@ -34,6 +37,8 @@ const ChoreTodo = ({ choreSegments }) => {
         score: points + chore.points,
       });
     });
+
+    // Update states
     setAllIncompleteChores(updatedChores);
     setSelectedChores(updatedChores);
     setUpdate((prev) => !prev);
